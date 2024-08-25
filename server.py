@@ -29,7 +29,7 @@ def handle_client(client_socket, client_address):
 
         if request.lower()== "!close":
             client_socket.send("Connection Closed".encode(FORMAT))
-            print(f"Connecion closed")
+            print(f"Connecion {client_full_adress} closed")
             connected = False
 
     client_socket.close()
