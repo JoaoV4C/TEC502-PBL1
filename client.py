@@ -7,7 +7,7 @@ HEADER = 1024
 FORMAT = "utf-8"
 
 #Definindo o endereço e porta que o servidor vai se conectar
-SERVER = socket.gethostbyname(socket.gethostname())
+SERVER = "172.16.103.5"
 PORT = 5050
 ADDR = (SERVER,PORT)
 
@@ -51,7 +51,7 @@ def run_client():
         print(f"Server: {confirmation}")
         # Pergunta ao usuário se deseja continuar
         conttinue_shopping =  msgClosed
-        if continue_shopping== "no" :
+        if conttinue_shopping== "no" :
             client.send("!close".encode(FORMAT))
             print("Conection closed.")
             connected = False
