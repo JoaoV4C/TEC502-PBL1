@@ -1,6 +1,7 @@
 import socket
 import threading
-
+from simulCompPassag import mensagens
+from closeConex import msgClosed
 #Definindo constantes
 HEADER = 1024
 FORMAT = "utf-8"
@@ -43,9 +44,18 @@ def run_client():
 
     while connected:
         # Envia a mensagem desejada ao servidor
-        msg = input("Enter message: ")
+        msg = mensagens()
         client.send(msg.encode(FORMAT)[:HEADER]) #Escreve a mensagem a ser enviada nas primeiras posições de um vetor(string) de tamanho HEADERs
-        
+        # Recebe a confirmação do servidor
+        confirmation = client.recv(HEADER).decode(FORMAT)
+        print(f"Server: {confirmation}")
+        # Pergunta ao usuário se deseja continuar
+        conttinue_shopping =  msgClosed
+        if continue_shopping== "no" :
+            client.send("!close".encode(FORMAT))
+            print("Conection closed.")
+            connected = False
+
     #Conexão fechada
     client.close()
 

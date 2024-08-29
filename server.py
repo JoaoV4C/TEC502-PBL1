@@ -27,6 +27,10 @@ def handle_client(client_socket, client_address):
         #Imprime a mensagem recebida
         print(f"[{client_full_adress}]: {request}")
 
+        # Envia uma confirmação de recebimento ao cliente
+        confirmation_message = "Message received by the server."
+        client_socket.send(confirmation_message.encode(FORMAT))
+
         if request.lower()== "!close":
             client_socket.send("Connection Closed".encode(FORMAT))
             print(f"Connecion {client_full_adress} closed")
