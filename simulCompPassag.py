@@ -1,40 +1,32 @@
 # Supondo que o arquivo de rotas seja importado
-from rotas_aereas_brasil import get_rotas_aereas, mostrar_rotas
+from rotas_aereas_brasil import buscar
 
 def mensagens():
+            
     
     print("WELCOME TO THE FAST PASS COMPANY\nCHOOSE THE CITY OF ORIGIN AND CITY OF DESTINATION FOR YOUR TRIP: \n")
     origem = input("Enter the city of origin: ")
     
-    rotas = get_rotas_aereas()  # Obtém as rotas disponíveis
-    
-    # Verifica se a cidade de origem está nas rotas disponíveis
-    if origem not in rotas:
-        print("Invalid city of origin. Please choose a valid city.")
-        return None
-    else:
-        mostrar_rotas(origem)
-    
     destino = input("Enter the destination city: ")
     
-    # Verifica se a cidade de destino está na lista de destinos disponíveis a partir da cidade de origem
-    if destino not in rotas[origem]:
-        print(f"No available routes from {origem} to {destino}. Please choose a valid destination.")
-        return None
+    msg = f"{origem}-->{destino}\n"
     
-    data = input("Enter the date of travel (mm/dd/yyyy): ")
-    
-    # Corrige o formato da data (supondo que o usuário entrou no formato mm/dd/yyyy)
-    day = data[:2]
-    month = data[2:4]
-    year = data[4:]
-    formatted_date = f"{day}/{month}/{year}"
-    
-    msg = f"{origem}-->{destino}; {formatted_date}"
-    print(msg)
+    # Chama a função buscar
+    lista, alternativo = buscar(origem, destino)
+    # Exibindo Rotas disponíveis
+    if lista or alternativo:
+        print("ROTAS DISPONIVEIS")
+        caminho1 = '->'.join(lista)
+        print(f"{caminho1}\n\n")
+        if alternativo:
+            for caminho in alternativo:
+                caminho2 = '->'.join(caminho)
+                print(f"{caminho2}\n\n")
+        
+
     return msg
 
-mensagens()
+#mensagens()
 
 
 '''def mensagens():
