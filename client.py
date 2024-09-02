@@ -26,6 +26,7 @@ def run_client():
         
     #Conexão fechada
     client.close()
+    print("Connection Closed!")
 
 if __name__ == "__main__":
     run_client()
