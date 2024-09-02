@@ -1,5 +1,4 @@
 import socket
-import threading
 
 #Definindo constantes
 HEADER = 1024
@@ -10,23 +9,6 @@ SERVER = "172.16.0.2"
 PORT = 5050
 ADDR = (SERVER,PORT)
 
-'''
-connected = None
-
-def listen_server(client):
-    global connected
-    while connected:
-        # Mensagem  que vem do servidor
-        response = client.recv(HEADER)
-        response = response.decode(FORMAT)
-
-        # Verifica se a mensagem que chegou foi closed e fecha a conexão
-        if response.lower() == "Connection closed":
-            connected = False
-
-        print(f"Received: {response}")
-'''
-
 def run_client():
     # Cria um objeto socket
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #primeiro argumento indica protocolo IPv4; conexão TCP
@@ -35,15 +17,11 @@ def run_client():
     client.connect(ADDR)
     connected = True
 
-    '''    
-    Thread que recebe mensagens do servidor
-    thread = threading.Thread(target=listen_server, args=(client,))
-    thread.start()
-    '''
-
     while connected:
         # Envia a mensagem desejada ao servidor
         msg = input("Enter message: ")
+        if msg.lower() == '!close':
+            connected = False
         client.send(msg.encode(FORMAT)[:HEADER]) #Escreve a mensagem a ser enviada nas primeiras posições de um vetor(string) de tamanho HEADERs
         
     #Conexão fechada

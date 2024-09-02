@@ -28,10 +28,9 @@ def handle_client(client_socket, client_address):
         print(f"[{client_full_adress}]: {request}")
 
         if request.lower()== "!close":
-            client_socket.send("Connection Closed".encode(FORMAT))
             print(f"Connecion {client_full_adress} closed")
             connected = False
-
+            
     client_socket.close()
 
 def run_server():
