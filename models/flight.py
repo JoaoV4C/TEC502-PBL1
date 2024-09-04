@@ -11,7 +11,6 @@ class Flight:
         self._seats = {f"{letter}{number}": "available" for letter in "ABCDEF" for number in range(1, 6)}
         Flight._flight_list.append(self)
 
-    # Consertar "Seats Available e Unavailable"
     def __repr__(self):
         available_seats = [seat for seat in self._seats if self._seats[seat] == "available"]
         unavailable_seats = [seat for seat in self._seats if self._seats[seat] == "unavailable"]

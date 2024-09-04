@@ -18,22 +18,22 @@ def mock():
             flight_to_destination = Flight(datetime.datetime.now()+ datetime.timedelta(days=10), flight, destination)
             print(Flight.flight_list())
 
-def buscar(orig, dest):
+def buscar(orig, dest, flights):
     lista = []
     alternativo = []
     if orig == dest:
         return 'Origem e destino são iguais'
-    elif orig not in caminhos_nordeste:
+    elif orig not in flights:
         return 'Cidade não está no banco de dados'
     else:
         lista.append(orig)  # Adiciona a cidade de origem à lista
-        for cidade in caminhos_nordeste[orig]:  # Percorre as conexões da cidade de origem
+        for cidade in flights[orig]:  # Percorre as conexões da cidade de origem
             lista.append(cidade)  # Adiciona as cidades conectadas diretamente
             if cidade == dest:  # Se encontrar o destino, para a busca
                 break
         
                 # Verifica caminhos alternativos
-        for lista_cidade in caminhos_nordeste.values():
+        for lista_cidade in flights.values():
             if orig in lista_cidade and dest in lista_cidade:
                 if lista_cidade.index(dest) > lista_cidade.index(orig):
                     for cidade in lista_cidade:
