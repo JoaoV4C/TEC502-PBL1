@@ -6,7 +6,7 @@ HEADER = 1024
 FORMAT = "utf-8"
 
 #Definindo o endereço e porta que o servidor vai se conectar
-SERVER = socket.gethostbyname(socket.gethostname())
+SERVER = 'localhost'
 PORT = 5050
 ADDR = (SERVER,PORT)
 

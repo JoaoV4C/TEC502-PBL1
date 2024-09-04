@@ -5,7 +5,7 @@ HEADER = 1024
 FORMAT = "utf-8"
 
 #Definindo o endereço e porta que o servidor vai se conectar
-SERVER = "172.16.0.2"
+SERVER = "localhost"
 PORT = 5050
 ADDR = (SERVER,PORT)
 
