@@ -1,13 +1,11 @@
 class Passager:
     _id_counter = 0
 
-    def __init__(self, name, cpf, date_of_birth, adress, id):
+    def __init__(self, name, cpf):
         Passager._id_counter += 1
         self._id = Passager._id_counter
         self._name = name
         self._cpf = cpf
-        self._date_of_birth = date_of_birth
-        self._adress = adress
         
     @property
     def name(self):
@@ -24,19 +22,3 @@ class Passager:
     @cpf.setter
     def cpf(self, value):
         self._cpf = value
-
-    @property
-    def date_of_birth(self):
-        return self._date_of_birth
-
-    @date_of_birth.setter
-    def date_of_birth(self, value):
-        self._date_of_birth = value
-
-    @property
-    def adress(self):
-        return self._adress
-
-    @adress.setter
-    def adress(self, value):
-        self._adress = value
