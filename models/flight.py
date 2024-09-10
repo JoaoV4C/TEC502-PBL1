@@ -1,15 +1,13 @@
 class Flight:
-    _flight_list = []
     _id_counter = 0
 
-    def __init__(self, date, place_from, place_to_place_to):
-        Flight._id_counter += 1
+    def __init__(self, place_from, place_to):
         self._id = Flight._id_counter
-        self._date = date
+        Flight._id_counter += 1
+        # self._date = date
         self._place_from = place_from
-        self._place_to = place_to_place_to
+        self._place_to = place_to
         self._seats = {f"{letter}{number}": "available" for letter in "ABCDEF" for number in range(1, 6)}
-        Flight._flight_list.append(self)
 
     def __repr__(self):
         available_seats = [seat for seat in self._seats if self._seats[seat] == "available"]
@@ -21,10 +19,10 @@ class Flight:
         return f""""Flight ID {self._id}
         From: {self._place_from}
         To: {self._place_to}
-        Date: {self._date}
         Seats Available: {available_seats_str}
         Seats Unavailable: {unavailable_seats_str}
         """
+        # Date: {self._date}
 
     @property
     def id(self):
@@ -34,13 +32,13 @@ class Flight:
     def id(self, value):
         self._id = value
 
-    @property
-    def date(self):
-        return self._date
+    # @property
+    # def date(self):
+    #     return self._date
 
-    @date.setter
-    def date(self, value):
-        self._date = value
+    # @date.setter
+    # def date(self, value):
+    #     self._date = value
 
     @property
     def place_from(self):
@@ -51,11 +49,11 @@ class Flight:
         self._place_from = value
 
     @property
-    def place_to_place_to(self):
+    def place_to(self):
         return self._place_to
 
-    @place_to_place_to.setter
-    def place_to_place_to(self, value):
+    @place_to.setter
+    def place_to(self, value):
         self._place_to = value
 
     @property

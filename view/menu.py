@@ -1,32 +1,44 @@
-
 def login():
     print("Login/Register")
     user = input("CPF: ")
     return user
 
-def menu():
-    print(f"""WELCOME TO THE FAST PASS COMPANY
+def register():
+    print("Register")
+    name = input("Name: ")
+    return name
+
+def menu(name):
+    print(f"""Hi {name}, Welcome To The Fast Pass Company!!
     1- Buy Ticket
     2- List your tickets
     3- Cancel a flight
-    """)
-    option = input()
+    4- Logout""")
+    option = input("Choose an option: ")
     return option
 
+def list_citys(citys):
+    print("\nAvailable Cities: ")
+    for city in citys:
+        print(city)
+
 def buy_ticket():
-    print("CHOOSE THE CITY OF ORIGIN AND CITY OF DESTINATION FOR YOUR TRIP: \n")
-    origin = input("Enter the city of origin: ")
-    destination = input("Enter the destination city: ")
+    print("\nChoose the City of Origin and City of Destination of Your Trip")
+    origin = input("Enter the city of origin: ").title()
+    destination = input("Enter the destination city: ").title()
     
-    print(f"From: {origin} To: {destination}")
+    print(f"From: {origin}\nTo: {destination}")
     return origin, destination
 
-def list_routes(routes_list):
+def show_route(routes_list):
+    routes_list = eval(routes_list)
     # Exibindo Rotas disponíveis
     if(len(routes_list) > 0):
-        print(f"Best route: {routes_list[0]}")
-        if(len(routes_list) > 1):
-            print(f"Other routes: {routes_list[1:]}")
+        if (len(routes_list[0])> 2):
+            print("Direct flights are not available")
+            print(f"Best route: {routes_list[0]}") 
+        else:
+            print(f"Route: {routes_list[0]}")    
     else:
         print("Unavailable Flight")
         

@@ -1,7 +1,8 @@
 import socket
 from view.menu import *
+import pickle
 #Definindo constantes
-HEADER = 1024
+HEADER = 4096
 FORMAT = "utf-8"
 
 #Definindo o endereço e porta que o servidor vai se conectar
@@ -18,20 +19,40 @@ def run_client():
     connected = True
     logged = False
     while connected:
-        while not logged:     
-            user = logged()
-            client.send(user.encode(FORMAT)[:HEADER]) #Escreve a mensagem a ser enviada nas primeiras posições de um vetor(string) de tamanho HEADERs
+        while not logged:   
+            cpf = login()
+            client.send(cpf.encode(FORMAT)[:HEADER]) #Escreve a mensagem a ser enviada nas primeiras posições de um vetor(string) de tamanho HEADERs
             confirmation = client.recv(HEADER).decode(FORMAT)
             if(confirmation == "Logged"):
                 logged=True
+            else:
+                name = register()
+                client.send(name.encode(FORMAT)[:HEADER])
+                logged = True
+            request = client.recv(HEADER)
+            user = pickle.loads(request)
+            
         
-        
-        print(f"Server: {confirmation}")
-        # Pergunta ao usuário se deseja continuar
-        conttinue_shopping =  msgClosed()
-        if conttinue_shopping== "no" :
-            client.send("!close".encode(FORMAT))
-            print("Conection closed.")
+        option = menu(user.name)
+        client.send(option.encode(FORMAT)[:HEADER])
+        match option:
+            case "1":
+                # Recebe o pickle com a lista de cidades e exibe para o usuário
+                request = client.recv(HEADER)
+                citys = pickle.loads(request) 
+                list_citys(citys)
+                # Pergunta a origem e destino da passagem e envia para o servidor
+                origin, destinantion = buy_ticket()
+                client.send(f"{origin}:{destinantion}".encode(FORMAT)[:HEADER])
+                # Recebe as rotas possíveis e exibe para o usuário
+                possible_routes = client.recv(HEADER).decode(FORMAT)
+                show_route(possible_routes)
+            case "4":
+                client.send("!close".encode(FORMAT))
+                print("Conection closed.")
+                connected = False
+            case _:
+                print("Invalid Option")
         
     #Conexão fechada
     client.close()

@@ -2,10 +2,14 @@ class Passager:
     _id_counter = 0
 
     def __init__(self, name, cpf):
-        Passager._id_counter += 1
         self._id = Passager._id_counter
+        Passager._id_counter += 1
         self._name = name
         self._cpf = cpf
+    
+    @property
+    def id(self):
+        return self.id
         
     @property
     def name(self):
