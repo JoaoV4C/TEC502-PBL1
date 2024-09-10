@@ -1,7 +1,7 @@
 import socket
 import threading
 from models.passager import Passager
-from flight_mocks import *
+from mocks import *
 import pickle
 
 #Definindo constantes
