@@ -31,8 +31,6 @@ def run_client():
                 logged = True
             request = client.recv(HEADER)
             user = pickle.loads(request)
-            
-        
         option = menu(user.name)
         client.send(option.encode(FORMAT)[:HEADER])
         match option:
@@ -48,6 +46,18 @@ def run_client():
                 possible_routes = client.recv(HEADER).decode(FORMAT)
                 show_route(possible_routes)
                 
+                # Recebe a lista de voos e assentos disponíveis
+                flights_info = pickle.loads(client.recv(HEADER))
+                print("\nAvailable Flights and Seats:")
+                for flight_info in flights_info:
+                    print(flight_info)    
+                
+                # O usuário escolhe o voo e o assento
+                flight_id = input("Select the flight ID: ")
+                seat = input("Select the seat: ")
+
+                # Envia a escolha do voo e do assento para o servidor
+                client.send(f"{flight_id}:{seat}".encode(FORMAT))
                 # Confirmação da compra
                 buy = confirm_purchase() # True se o usuário confirmar, False se cancelar
                 
@@ -66,7 +76,7 @@ def run_client():
                     print(f"Erro ao receber tickets: {e}")
 
             case "4":
-                client.send("!close".encode(FORMAT))
+                client.send("close".encode(FORMAT))
                 print("Conection closed.")
                 connected = False
             case _:

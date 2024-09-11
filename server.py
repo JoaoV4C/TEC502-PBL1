@@ -1,6 +1,7 @@
 import socket
 import threading
 from models.passager import Passager
+from models.flight import Flight
 from mocks import *
 import pickle
 
@@ -44,6 +45,16 @@ def handle_client(client_socket, client_address):
 
         # Recebe a opcão seleciondada pelo cliente
         request = client_socket.recv(HEADER).decode(FORMAT)
+        if not request:
+            connected = False
+            break  # Saia do loop de recebimento se não houver dados
+        
+        if request.lower() == "close":
+            print(f"Connection {client_full_adress} closed")
+            connected = False
+            client_socket.send("Connection closed.".encode(FORMAT))
+            break  # Saia do loop de recebimento e encerramento da conexão
+        
         match request:
             # Compra de passagem
             case "1":
@@ -55,16 +66,41 @@ def handle_client(client_socket, client_address):
 
                 # Recebe e separa a origem e destino da passagem recebida do cliente
                 request = client_socket.recv(HEADER).decode(FORMAT)        
-                origin, destinantion = request.split(":")
+                origin, destination = request.split(":")
 
                 # Encontra as rotas possíveis para as cidade de origem e destino e envia para o cliente
-                possible_routes = find_routes(airport_list, origin, destinantion)
+                possible_routes = find_routes(airport_list, origin, destination)
                 client_socket.send(str(possible_routes).encode(FORMAT))
+                
+                available_flights = [Flight(origin, destination) for _ in range(3)]
+                # Exibe a lista de voos disponíveis e seus assentos
+                flights_info = [repr(flight) for flight in available_flights]  # Representação textual dos voos
+                flights_pickle = pickle.dumps(flights_info)  # Serializa a lista de voos e assentos
+
+                # Envia a lista de voos e assentos para o cliente
+                client_socket.send(flights_pickle)
+
+                # Recebe o ID do voo e o assento escolhido pelo cliente
+                selection = client_socket.recv(HEADER).decode(FORMAT)
+                
+                if ":" in selection:
+                    flight_id, seat = selection.split(":")  # Assumindo que o cliente envia "flight_id:seat"
+
+                    if 0 <= int(flight_id) < len(available_flights):
+                        selected_flight = available_flights[int(flight_id)]
+                    else:
+                        client_socket.send("INVALID FLIGHT ID".encode(FORMAT))
+                        return
+                    # Marca o assento como indisponível
+                    selected_flight.seats = seat  # Isso marcará o assento como "unavailable"
+                else:
+                    print("Invalid selection format")
+                    client_socket.send("INVALID SELECTION".encode(FORMAT))
                 
                 # Recebe a confirmação da compra do cliente (True ou False)
                 confirmation = client_socket.recv(HEADER).decode(FORMAT)
                 if confirmation == "True":
-                    print(f"Purchase confirmed: {origin} -> {destinantion}")
+                    print(f"Purchase confirmed: {origin} -> {destination}") 
                     client_socket.send("PURCHASE CONFIRMED SUCCESSFULLY".encode(FORMAT))
                 else:
                     print('PURCHASE CANCELLED BY THE CLIENT')
@@ -79,14 +115,6 @@ def handle_client(client_socket, client_address):
                 else:
                     # Envia uma mensagem indicando que não há passagens compradas
                     client_socket.send(pickle.dumps([]))
-                
-
-        if not request:
-            connected = False
-
-        if request.lower()== "!close":
-            print(f"Connecion {client_full_adress} closed")
-            connected = False
             
     client_socket.close()
 
