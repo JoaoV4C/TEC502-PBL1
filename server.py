@@ -62,7 +62,7 @@ def handle_client(client_socket, client_address):
                 citys_pickle = pickle.dumps(list_citys(airport_list))
 
                 # Envia a string pickle para o cliente
-                client_socket.send(citys_pickle)
+                client_socket.sendall(citys_pickle)
 
                 # Recebe e separa a origem e destino da passagem recebida do cliente
                 request = client_socket.recv(HEADER).decode(FORMAT)        
@@ -76,27 +76,33 @@ def handle_client(client_socket, client_address):
                 # Exibe a lista de voos disponíveis e seus assentos
                 flights_info = [repr(flight) for flight in available_flights]  # Representação textual dos voos
                 flights_pickle = pickle.dumps(flights_info)  # Serializa a lista de voos e assentos
-
+                
                 # Envia a lista de voos e assentos para o cliente
                 client_socket.send(flights_pickle)
 
                 # Recebe o ID do voo e o assento escolhido pelo cliente
                 selection = client_socket.recv(HEADER).decode(FORMAT)
                 
-                if ":" in selection:
-                    flight_id, seat = selection.split(":")  # Assumindo que o cliente envia "flight_id:seat"
-
-                    if 0 <= int(flight_id) < len(available_flights):
-                        selected_flight = available_flights[int(flight_id)]
-                    else:
-                        client_socket.send("INVALID FLIGHT ID".encode(FORMAT))
-                        return
-                    # Marca o assento como indisponível
-                    selected_flight.seats = seat  # Isso marcará o assento como "unavailable"
-                else:
-                    print("Invalid selection format")
-                    client_socket.send("INVALID SELECTION".encode(FORMAT))
+                # Separa o ID do voo e o assento usando o delimitador :
+                flight_id, seat = selection.split(":")
+                flight_id = int(flight_id)
+                # Encontra o voo correspondente na lista de voos
+                flight = next((f for f in Flight.flight_list() if f.id == flight_id), None)
                 
+                if flight:
+                    print("dentro flight")
+                    # Tenta reservar o assento
+                    if flight.reserve_seat(seat):
+                        print("sucesso")
+                        response = "Seat reserved successfully."
+                    else:
+                        response = "Seat reservation failed. Seat might be unavailable or invalid."
+                else:
+                    response = "Flight not found."
+                
+                # Envia a resposta de volta para o cliente
+                client_socket.send(response.encode(FORMAT))
+
                 # Recebe a confirmação da compra do cliente (True ou False)
                 confirmation = client_socket.recv(HEADER).decode(FORMAT)
                 if confirmation == "True":

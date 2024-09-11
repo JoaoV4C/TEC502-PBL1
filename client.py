@@ -55,7 +55,6 @@ def run_client():
                 # O usuário escolhe o voo e o assento
                 flight_id = input("Select the flight ID: ")
                 seat = input("Select the seat: ")
-
                 # Envia a escolha do voo e do assento para o servidor
                 client.send(f"{flight_id}:{seat}".encode(FORMAT))
                 # Confirmação da compra

@@ -1,5 +1,6 @@
 class Flight:
     _id_counter = 0
+    _flight_list = []
 
     def __init__(self, place_from, place_to):
         self._id = Flight._id_counter
@@ -8,6 +9,7 @@ class Flight:
         self._place_from = place_from
         self._place_to = place_to
         self._seats = {f"{letter}{number}": "available" for letter in "ABCDEF" for number in range(1, 6)}
+        Flight._flight_list.append(self)
 
     def __repr__(self):
         available_seats = [seat for seat in self._seats if self._seats[seat] == "available"]
@@ -62,8 +64,17 @@ class Flight:
 
     @seats.setter
     def seats(self, value):
-        self._seats[value] = "unavailable"
+        if value in self._seats and self._seats[value] == "available":
+            self._seats[value] = "unavailable"
+        else:
+            raise ValueError("Seat not available or invalid.")
 
     @staticmethod
     def flight_list():
         return Flight._flight_list
+
+    def reserve_seat(self, seat):
+        if seat in self._seats and self._seats[seat] == "available":
+            self._seats[seat] = "unavailable"
+            return True
+        return False
