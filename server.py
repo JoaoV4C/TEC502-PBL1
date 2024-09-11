@@ -60,6 +60,16 @@ def handle_client(client_socket, client_address):
                 # Encontra as rotas possíveis para as cidade de origem e destino e envia para o cliente
                 possible_routes = find_routes(airport_list, origin, destinantion)
                 client_socket.send(str(possible_routes).encode(FORMAT))
+                
+                # Recebe a confirmação da compra do cliente (True ou False)
+                confirmation = client_socket.recv(HEADER).decode(FORMAT)
+                if confirmation == "True":
+                    print(f"Purchase confirmed: {origin} -> {destinantion}")
+                    client_socket.send("PURCHASE CONFIRMED SUCCESSFULLY".encode(FORMAT))
+                else:
+                    print('PURCHASE CANCELLED BY THE CLIENT')
+                    client_socket.send("PURCHASE CANCELLED.".encode(FORMAT))
+            
             case "2": # não ta pronto ainda
                 print(f"teste -> {passager.name}")
                 if hasattr(passager, 'tickets') and passager.tickets:

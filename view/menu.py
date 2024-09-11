@@ -30,6 +30,16 @@ def buy_ticket():
     print(f"From: {origin}\nTo: {destination}")
     return origin, destination
 
+def confirm_purchase():
+    confirm = input("Do you want to make a purchase? sim ou não\n")
+    if confirm == 'sim':
+        print('\nPURCHASE MADE\n')
+        return True
+    elif confirm == 'não':
+        print('\nPURCHASE CANCELLED\n')
+        return False
+        
+    
 def show_route(routes_list):
     routes_list = eval(routes_list)
     # Exibindo Rotas disponíveis
@@ -38,7 +48,7 @@ def show_route(routes_list):
             print("Direct flights are not available")
             print(f"Best route: {routes_list[0]}") 
         else:
-            print(f"Route: {routes_list[0]}")    
+            print(f"Route t: {routes_list[0]}")    
     else:
         print("Unavailable Flight")
         

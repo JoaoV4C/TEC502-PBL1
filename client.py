@@ -47,6 +47,13 @@ def run_client():
                 # Recebe as rotas possíveis e exibe para o usuário
                 possible_routes = client.recv(HEADER).decode(FORMAT)
                 show_route(possible_routes)
+                
+                # Confirmação da compra
+                buy = confirm_purchase() # True se o usuário confirmar, False se cancelar
+                
+                # Envia a confirmação da compra para o servidor
+                client.send(str(buy).encode(FORMAT))
+            
             case "2": # não ta pronto ainda
                 client.send("2".encode(FORMAT)[:HEADER])
                 print('Solicitação enviada ao servidor.')
