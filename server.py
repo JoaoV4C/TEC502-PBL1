@@ -60,6 +60,16 @@ def handle_client(client_socket, client_address):
                 # Encontra as rotas possíveis para as cidade de origem e destino e envia para o cliente
                 possible_routes = find_routes(airport_list, origin, destinantion)
                 client_socket.send(str(possible_routes).encode(FORMAT))
+            case "2": # não ta pronto ainda
+                print(f"teste -> {passager.name}")
+                if hasattr(passager, 'tickets') and passager.tickets:
+                    # Serializa e envia a lista de passagens compradas
+                    tickets_pickle = pickle.dumps(passager.tickets)
+                    client_socket.send(tickets_pickle)
+                else:
+                    # Envia uma mensagem indicando que não há passagens compradas
+                    client_socket.send(pickle.dumps([]))
+                
 
         if not request:
             connected = False

@@ -47,6 +47,17 @@ def run_client():
                 # Recebe as rotas possíveis e exibe para o usuário
                 possible_routes = client.recv(HEADER).decode(FORMAT)
                 show_route(possible_routes)
+            case "2": # não ta pronto ainda
+                client.send("2".encode(FORMAT)[:HEADER])
+                print('Solicitação enviada ao servidor.')
+                try:
+                    request = client.recv(HEADER)
+                    print('Resposta recebida do servidor.')
+                    tickets = pickle.loads(request)
+                    print('Tickets carregados:', tickets)
+                except Exception as e:
+                    print(f"Erro ao receber tickets: {e}")
+
             case "4":
                 client.send("!close".encode(FORMAT))
                 print("Conection closed.")
@@ -59,4 +70,5 @@ def run_client():
     print("Connection Closed!")
 
 if __name__ == "__main__":
+    
     run_client()
