@@ -4,14 +4,13 @@ class Flight:
     def __init__(self, place_from, place_to):
         self._id = Flight._id_counter
         Flight._id_counter += 1
-        # self._date = date
         self._place_from = place_from
         self._place_to = place_to
-        self._seats = {f"{letter}{number}": "available" for letter in "ABCDEF" for number in range(1, 6)}
+        self._seats = {f"{letter}{number}": True for letter in "ABCDEF" for number in range(1, 6)}
 
     def __repr__(self):
-        available_seats = [seat for seat in self._seats if self._seats[seat] == "available"]
-        unavailable_seats = [seat for seat in self._seats if self._seats[seat] == "unavailable"]
+        available_seats = [seat for seat in self._seats if self._seats[seat]]
+        unavailable_seats = [seat for seat in self._seats if not self._seats[seat]]
         
         available_seats_str = ", ".join(available_seats) if available_seats else "None"
         unavailable_seats_str = ", ".join(unavailable_seats) if unavailable_seats else "None"
@@ -22,7 +21,6 @@ class Flight:
         Seats Available: {available_seats_str}
         Seats Unavailable: {unavailable_seats_str}
         """
-        # Date: {self._date}
 
     @property
     def id(self):
@@ -32,13 +30,6 @@ class Flight:
     def id(self, value):
         self._id = value
 
-    # @property
-    # def date(self):
-    #     return self._date
-
-    # @date.setter
-    # def date(self, value):
-    #     self._date = value
 
     @property
     def place_from(self):
@@ -59,11 +50,20 @@ class Flight:
     @property
     def seats(self):
         return self._seats
-
+    # Consertar
     @seats.setter
     def seats(self, value):
-        self._seats[value] = "unavailable"
+        if value in self._seats and self._seats[value]:
+            self._seats[value] = False
+        else:
+            raise ValueError("Seat not available or invalid.")
 
     @staticmethod
     def flight_list():
         return Flight._flight_list
+    # Consertar
+    def reserve_seat(self, seat):
+        if seat in self._seats and self._seats[seat] == "available":
+            self._seats[seat] = "unavailable"
+            return True
+        return False

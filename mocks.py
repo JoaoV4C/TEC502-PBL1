@@ -19,9 +19,8 @@ def create_flights(airport_objects):
         for destination in origin.connections:
             destination_obj = next((airport for airport in airport_objects if airport.name == destination), None)
             if destination_obj:
-                flight = Flight(origin.id, destination_obj.id)
+                flight = Flight(origin.name, destination_obj.name)
                 flights.append(flight)
-            flights.append(flight)
     return flights
 
 def create_airports():
@@ -33,3 +32,7 @@ def create_airports():
         airport_obj = Airport(name, code, connections)
         airport_objects.append(airport_obj)
     return airport_objects
+
+# a = create_airports()
+# b = create_flights(a)
+# print(b)
