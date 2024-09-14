@@ -31,10 +31,10 @@ def run_client():
                 logged = True
             request = client.recv(HEADER)
             user = pickle.loads(request)
-            
-        
+
         option = menu(user.name)
         client.send(option.encode(FORMAT)[:HEADER])
+
         match option:
             case "1":
                 # Recebe o pickle com a lista de cidades e exibe para o usuário
@@ -47,6 +47,16 @@ def run_client():
                 # Recebe as rotas possíveis e exibe para o usuário
                 possible_routes = client.recv(HEADER).decode(FORMAT)
                 show_route(possible_routes)
+                
+                request = client.recv(HEADER)
+                # Recebe a lista de voos e assentos disponíveis
+                flights_needed = pickle.loads(request)
+                
+                print("\nAvailable Flights and Seats:")
+                for flight in flights_needed:
+                    print(flight)
+                
+            
             case "2": # não ta pronto ainda
                 client.send("2".encode(FORMAT)[:HEADER])
                 print('Solicitação enviada ao servidor.')

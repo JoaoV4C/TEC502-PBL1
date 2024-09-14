@@ -7,7 +7,7 @@ class Passager:
         self._name = name
         self._cpf = cpf
         self._tickets = [] # Lista para armazenar as passagens compradas
-    
+   
     @property
     def id(self):
         return self.id
@@ -27,7 +27,7 @@ class Passager:
     @cpf.setter
     def cpf(self, value):
         self._cpf = value
-        
+
     @property
     def tickets(self):
         return self._tickets
