@@ -55,7 +55,16 @@ def run_client():
                 print("\nAvailable Flights and Seats:")
                 for flight in flights_needed:
                     print(flight)
-                
+                    
+                # Escolhendo vôo e assento
+                qtd_voos = len(flights_needed)
+                fligh_seat = choose_ticket(qtd_voos)    # Dicionario com voos e assentos
+            
+                # Serializando os dados com pickle
+                serialized_data = pickle.dumps(fligh_seat)
+               
+                # Envia os dados para o servidor
+                client.send(serialized_data[:HEADER])
             
             case "2": # não ta pronto ainda
                 client.send("2".encode(FORMAT)[:HEADER])

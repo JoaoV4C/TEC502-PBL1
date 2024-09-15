@@ -68,6 +68,14 @@ def handle_client(client_socket, client_address):
                 flights_needed = pickle.dumps(list_flights_needed(possible_routes))
                 client_socket.sendall(flights_needed)
                 
+                # Recebe os dados serializados do cliente
+                flight_data = client_socket.recv(HEADER)
+                
+                # Desserializa os dados
+                fligh_seat = pickle.loads(flight_data)
+                
+                print(f"{fligh_seat}")
+                
                 # available_flights = [Flight(origin, destination) for _ in range(3)]
                 # # Exibe a lista de voos disponíveis e seus assentos
                 # flights_info = [repr(flight) for flight in available_flights]  # Representação textual dos voos

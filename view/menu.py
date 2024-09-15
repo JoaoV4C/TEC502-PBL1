@@ -8,6 +8,14 @@ def register():
     name = input("Name: ")
     return name
 
+def choose_ticket(qtd_voos):
+    voos = {}
+    for i in range(qtd_voos):
+        fligh = input("Digite o ID do vôo: ")
+        seat = input("Digite o assento: ")
+        voos[fligh] = seat  
+    return voos            
+
 def menu(name):
     print(f"""Hi {name}, Welcome To The Fast Pass Company!!
     1- Buy Ticket
