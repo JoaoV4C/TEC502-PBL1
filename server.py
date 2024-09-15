@@ -73,6 +73,28 @@ def handle_client(client_socket, client_address):
                 
                 # Desserializa os dados
                 fligh_seat = pickle.loads(flight_data)
+                # Ta com erro (não consegue encontrar o voo)
+                for flight_id, seat in fligh_seat.items():
+                    for i in range(len(flights_list)):
+                        # Verifica se o voo existe na lista
+                        if int(flight_id) == flights_list[i]._id:
+                            fli = flights_list[i]
+                            if fli.reserve_seat(seat):
+                                print(f"Assento {seat} reservado com sucesso no voo {flight_id}.")
+                                break
+                            else:
+                                print(f"Falha ao reservar o assento {seat} no voo {flight_id}. Assento já ocupado ou inválido.")
+                                break    
+                        else:
+                            print(f"Voo {flight_id} não encontrado.")
+                            break
+                        
+                        
+                print(flights_list[5]._place_from)
+                print(flights_list[5]._place_to)
+                
+                
+                
                 
                 print(f"{fligh_seat}")
                 

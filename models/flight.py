@@ -53,17 +53,14 @@ class Flight:
     # Consertar
     @seats.setter
     def seats(self, value):
-        if value in self._seats and self._seats[value]:
-            self._seats[value] = False
-        else:
-            raise ValueError("Seat not available or invalid.")
-
-    @staticmethod
+        self._seats(value)
+        
+    '''@staticmethod
     def flight_list():
-        return Flight._flight_list
+        return Flight._flight_list'''
     # Consertar
     def reserve_seat(self, seat):
-        if seat in self._seats and self._seats[seat] == "available":
-            self._seats[seat] = "unavailable"
+        if seat in self._seats and self._seats[seat]:
+            self._seats[seat] = False
             return True
         return False
