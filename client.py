@@ -67,6 +67,7 @@ def run_client():
                             seat_chosen = choose_seat(flight).upper()
                             client.send(seat_chosen.encode(FORMAT)[:HEADER])
                             ticket_created = client.recv(HEADER).decode(FORMAT)
+                            ticket_created = eval(ticket_created)
                             ticket_confirmation(ticket_created)
                             
             

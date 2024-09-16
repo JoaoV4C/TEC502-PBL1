@@ -52,8 +52,7 @@ def confirm_purchase():
     else:
         return False
 
-def ticket_confirmation(ticket_created):
-    ticket = eval(ticket_created)
+def ticket_confirmation(ticket):
     if ticket:
         print("Ticket purchased successfully\n")
     else:
