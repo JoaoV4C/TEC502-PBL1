@@ -84,8 +84,7 @@ def handle_client(client_socket, client_address):
                             client_socket.send(str(confirmation).encode(FORMAT))
 
             case "2":
-                tickets = get_ticket_info
-                tickets_pickle = pickle.dumps()
+                tickets_pickle = pickle.dumps(passager.tickets)
                 client_socket.send(tickets_pickle)
 
             case "4":
