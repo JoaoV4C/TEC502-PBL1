@@ -15,12 +15,7 @@ class Flight:
         available_seats_str = ", ".join(available_seats) if available_seats else "None"
         unavailable_seats_str = ", ".join(unavailable_seats) if unavailable_seats else "None"
         
-        return f""""Flight ID {self._id}
-        From: {self._place_from}
-        To: {self._place_to}
-        Seats Available: {available_seats_str}
-        Seats Unavailable: {unavailable_seats_str}
-        """
+        return f"\nFlight ID {self._id}\nFrom: {self._place_from}\nTo: {self._place_to}\nSeats Available: {available_seats_str}\nSeats Unavailable: {unavailable_seats_str}"
 
     @property
     def id(self):
@@ -29,7 +24,6 @@ class Flight:
     @id.setter
     def id(self, value):
         self._id = value
-
 
     @property
     def place_from(self):
@@ -50,15 +44,11 @@ class Flight:
     @property
     def seats(self):
         return self._seats
-    # Consertar
+    
     @seats.setter
     def seats(self, value):
         self._seats(value)
         
-    '''@staticmethod
-    def flight_list():
-        return Flight._flight_list'''
-    # Consertar
     def reserve_seat(self, seat):
         if seat in self._seats and self._seats[seat]:
             self._seats[seat] = False

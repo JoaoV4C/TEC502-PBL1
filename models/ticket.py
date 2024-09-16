@@ -1,8 +1,16 @@
 class Ticket:
+    _id_counter = 0
+
     def __init__(self, id_passenger, id_flight, seat):
+        self._id = Ticket._id_counter
+        Ticket._id_counter += 1
         self._id_passenger = id_passenger
         self._id_flight = id_flight
         self._seat = seat
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def id_passenger(self):
