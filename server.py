@@ -65,6 +65,7 @@ def handle_client(client_socket, client_address):
                 best_route_pickle = pickle.dumps(best_route)
                 client_socket.sendall(best_route_pickle)
 
+                """ Se não houver voo não precisa de confirmação !! Consertar!!!"""
                 # Recebe a confirmação do cliente para a compra da passagem
                 confirmation = client_socket.recv(HEADER).decode(FORMAT)
                 confirmation = eval(confirmation)
@@ -86,6 +87,10 @@ def handle_client(client_socket, client_address):
             case "2":
                 tickets_pickle = pickle.dumps(passager.tickets)
                 client_socket.send(tickets_pickle)
+            
+            case "3":
+                """Iniciar!!!"""
+                ...
 
             case "4":
                 print(f"Connection {client_full_adress} closed")

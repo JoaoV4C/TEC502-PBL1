@@ -70,11 +70,14 @@ def run_client():
                             ticket_created = eval(ticket_created)
                             ticket_confirmation(ticket_created)
                             
-            
             case "2":
                 request = client.recv(HEADER)
                 tickets = pickle.loads(request)
                 list_passagers_tickets(tickets)
+
+            case "3":
+                """Iniciar!!!"""
+                ...
 
             case "4":
                 request = client.recv(HEADER).decode(FORMAT)

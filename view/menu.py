@@ -22,6 +22,7 @@ def list_cities(airport_list):
     for airport in airport_list:
         print(airport.name)
 
+"""Finalizar o print de tickets!!!!"""
 def list_passagers_tickets(tickets):
     if(len(tickets) > 0):
         print("\nYour Tickets: ")
