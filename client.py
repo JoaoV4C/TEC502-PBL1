@@ -65,6 +65,16 @@ def run_client():
                
                 # Envia os dados para o servidor
                 client.send(serialized_data[:HEADER])
+                
+                # Recebe a resposta do servidor
+                response_data = client.recv(HEADER)
+                
+                # Desserializa a resposta (True/False)
+                reservation_sucesses = pickle.loads(response_data)
+                if reservation_sucesses:
+                    print("Reserva realizada com sucesso!\n")
+                else:
+                    print("Não foi possível realizar a reserva, voo esta lotado.\n")
             
             case "2": # não ta pronto ainda
                 client.send("2".encode(FORMAT)[:HEADER])

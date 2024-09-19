@@ -73,8 +73,17 @@ def handle_client(client_socket, client_address):
                 
                 # Desserializa os dados
                 fligh_seat = pickle.loads(flight_data)
-                reserv_voo(fligh_seat)
-                print(flights_list)
+                
+                #chama a função para reservar o voo
+                send_clien = reserv_voo(fligh_seat)
+                
+                # Serializa o valor booleano (True/False)
+                send_clien_pickle = pickle.dumps(send_clien)
+                
+                # Envia a resposta serializada para o cliente
+                client_socket.sendall(send_clien_pickle)  
+                
+                
                 
 
                 # Ta com erro (não consegue encontrar o voo)
@@ -162,8 +171,10 @@ def reserv_voo(fligh_seat):
             if flight._id == int(id):
                 if flight.reserve_seat():# Chama o método reserve_seat
                     print(f"Reserva realizada com sucesso para o voo {flight._id}")
+                    return True
                 else:
                     print(f"Não foi possível reservar, voo {flight._id} está lotado.")
+                    return False
 
 
 def list_flights_needed(possible_routes):
