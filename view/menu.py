@@ -10,10 +10,10 @@ def register():
 
 def menu(name):
     print(f"""Hi {name}, Welcome To The Fast Pass Company!!
-    1- Buy Ticket
-    2- List your tickets
-    3- Cancel a flight
-    4- Logout""")
+1- Buy Ticket
+2- List your tickets
+3- Cancel a flight
+4- Logout""")
     option = input("Choose an option: ")
     return option
 
