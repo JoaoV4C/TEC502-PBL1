@@ -58,8 +58,8 @@ def run_client():
                     
                 # Escolhendo vôo e assento
                 qtd_voos = len(flights_needed)
-                fligh_seat = choose_ticket(qtd_voos)    # Dicionario com voos e assentos
-            
+                fligh_seat = choose_ticket(qtd_voos)    # Lista com voos  
+
                 # Serializando os dados com pickle
                 serialized_data = pickle.dumps(fligh_seat)
                
