@@ -6,67 +6,57 @@ def login():
 def register():
     print("Register")
     name = input("Name: ")
-    return name       
+    return name
 
-def menu(name):
-    print(f"""Hi {name}, Welcome To The Fast Pass Company!!
-1- Buy Ticket
-2- List your tickets
-3- Cancel a flight
-4- Logout""")
-    option = input("Choose an option: ")
-    return option
-
-def list_cities(airport_list):
-    print("\nAvailable Cities: ")
-    for airport in airport_list:
-        print(airport.name)
-
-"""Finalizar o print de tickets!!!!"""
-def list_passagers_tickets(tickets):
-    if(len(tickets) > 0):
-        print("\nYour Tickets: ")
-        for ticket in tickets:
-            print(ticket)
-    else:
-        print("No tickets purchased")
-
-def choose_cities():
-    print("Choose the City of Origin and City of Destination of Your Trip")
-    origin = input("Enter the city of origin: ").title()
-    destination = input("Enter the destination city: ").title()
-    print(f"\nFrom: {origin}\nTo: {destination}")
-    return origin, destination
-
-def choose_seat(flight):
-    print(flight)
-    seat = input("Choose a seat: ")
-    return seat
-
-def confirm_purchase():
-    confirm = input("Do you to continue purchasing? Y or N\n").lower()
-    while confirm not in ['y', 'n']:
-        confirm = input("Invalid option! Do you to continue purchasing? Y or N\n").lower()
-
+def choose_ticket():
+    confirm = input("Deseja comprar sua passagem? ")
     if confirm == "y":
         return True
     else:
         return False
 
-def ticket_confirmation(ticket):
-    if ticket:
-        print("Ticket purchased successfully\n")
-    else:
-        print("Seat Invalid or Already taken, try again!\n")
+
+def menu(name):
+    print(f"""Hi {name}, Welcome To The Fast Pass Company!!
+    1- Buy Ticket
+    2- List your tickets
+    3- Cancel a flight
+    4- Logout""")
+    option = input("Choose an option: ")
+    return option
+
+def list_citys(citys):
+    print("\nAvailable Cities: ")
+    for city in citys:
+        print(city)
+
+def buy_ticket():
+    print("\nChoose the City of Origin and City of Destination of Your Trip")
+    origin = input("Enter the city of origin: ").title()
+    destination = input("Enter the destination city: ").title()
     
-def show_route(best_route):
+    print(f"From: {origin}\nTo: {destination}")
+    return origin, destination
+
+def confirm_purchase():
+    confirm = input("Do you want to make a purchase? sim ou não\n")
+    if confirm == 'sim':
+        print('\nPURCHASE MADE\n')
+        return True
+    elif confirm == 'não':
+        print('\nPURCHASE CANCELLED\n')
+        return False
+        
+    
+def show_route(routes_list):
+    routes_list = eval(routes_list)
     # Exibindo Rotas disponíveis
-    if(len(best_route) > 0):
-        if (len(best_route)> 2):
+    if(len(routes_list) > 0):
+        if (len(routes_list[0])> 2):
             print("Direct flights are not available")
-            print(f"Best route: {best_route}") 
+            print(f"Best route: {routes_list[0]}") 
         else:
-            print(f"Route: {best_route}")    
+            print(f"Route: {routes_list[0]}")    
     else:
         print("Unavailable Flight")
         

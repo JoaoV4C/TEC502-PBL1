@@ -6,16 +6,12 @@ class Flight:
         Flight._id_counter += 1
         self._place_from = place_from
         self._place_to = place_to
-        self._seats = {f"{letter}{number}": True for letter in "ABCDEF" for number in range(1, 6)}
+        self._available_seats = 1  # Definindo 10 vagas inicialmente
 
     def __repr__(self):
-        available_seats = [seat for seat in self._seats if self._seats[seat]]
-        unavailable_seats = [seat for seat in self._seats if not self._seats[seat]]
-        
-        available_seats_str = ", ".join(available_seats) if available_seats else "None"
-        unavailable_seats_str = ", ".join(unavailable_seats) if unavailable_seats else "None"
-        
-        return f"\nFlight ID {self._id}\nFrom: {self._place_from}\nTo: {self._place_to}\nSeats Available: {available_seats_str}\nSeats Unavailable: {unavailable_seats_str}"
+    
+        return f"\nFlight ID {self._id}\nFrom: {self._place_from}\nTo: {self._place_to}\nSeats Available: {self._available_seats}\n"
+
 
     @property
     def id(self):
@@ -42,15 +38,11 @@ class Flight:
         self._place_to = value
 
     @property
-    def seats(self):
-        return self._seats
-    
-    @seats.setter
-    def seats(self, value):
-        self._seats(value)
-        
-    def reserve_seat(self, seat):
-        if seat in self._seats and self._seats[seat]:
-            self._seats[seat] = False
+    def available_seats(self):
+        return self._available_seats
+
+    def reserve_seat(self):
+        if self._available_seats > 0:
+            self._available_seats -= 1
             return True
         return False

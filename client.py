@@ -39,50 +39,58 @@ def run_client():
             case "1":
                 # Recebe o pickle com a lista de cidades e exibe para o usuário
                 request = client.recv(HEADER)
-                airports = pickle.loads(request) 
-                list_cities(airports)
-
+                citys = pickle.loads(request) 
+                list_citys(citys)
                 # Pergunta a origem e destino da passagem e envia para o servidor
-                origin, destinantion = choose_cities()
+                origin, destinantion = buy_ticket()
                 client.send(f"{origin}:{destinantion}".encode(FORMAT)[:HEADER])
-
                 # Recebe as rotas possíveis e exibe para o usuário
-                best_route = client.recv(HEADER)
-                best_route = pickle.loads(best_route)
-                show_route(best_route)
-
-                """ Se não houver voo não precisa de confirmação !! Consertar!!!"""
-                # Pergunta se o usuário deseja comprar a passagem
-                confirmation = confirm_purchase()
-                client.send(str(confirmation).encode(FORMAT)[:HEADER])
-
-                if confirmation:
-                    # Recebe a lista de voos e assentos disponíveis
-                    request = client.recv(HEADER)
-                    flights_needed = pickle.loads(request)
-                    
-                    for flight in flights_needed:
-                        ticket_created = False
-                        while not ticket_created:
-                            seat_chosen = choose_seat(flight).upper()
-                            client.send(seat_chosen.encode(FORMAT)[:HEADER])
-                            ticket_created = client.recv(HEADER).decode(FORMAT)
-                            ticket_created = eval(ticket_created)
-                            ticket_confirmation(ticket_created)
-                            
-            case "2":
+                possible_routes = client.recv(HEADER).decode(FORMAT)
+                show_route(possible_routes)
+                
                 request = client.recv(HEADER)
-                tickets = pickle.loads(request)
-                list_passagers_tickets(tickets)
+                # Recebe a lista de voos e assentos disponíveis
+                flights_needed = pickle.loads(request)
+                
+                print("\nAvailable Flights and Seats:")
+                for flight in flights_needed:
+                    print(flight)
+                    
+                # Escolhendo vôo e assento
+                #qtd_voos = len(flights_needed)
+                fligh_seat = choose_ticket()    # Lista com voos  
 
-            case "3":
-                """Iniciar!!!"""
-                ...
+                # Serializando os dados com pickle
+                serialized_data = pickle.dumps(fligh_seat)
+               
+                # Envia os dados para o servidor
+                client.send(serialized_data[:HEADER])
+                
+                # Recebe a resposta do servidor
+                response_data = client.recv(HEADER)
+                
+                # Desserializa a resposta (True/False)
+                reservation_sucesses = pickle.loads(response_data)
+                if reservation_sucesses:
+                    print("Compra realizada com sucesso!\n")
+                else:
+                    print("Não foi possível realizar a compra, voo esta lotado.\n")
+            
+            case "2": # não ta pronto ainda
+                client.send("2".encode(FORMAT)[:HEADER])
+                print('Solicitação enviada ao servidor.')
+                try:
+                    request = client.recv(HEADER)
+                    print('Resposta recebida do servidor.')
+                    tickets = pickle.loads(request)
+                    print('Tickets carregados:', tickets)
+                except Exception as e:
+                    print(f"Erro ao receber tickets: {e}")
 
             case "4":
-                request = client.recv(HEADER).decode(FORMAT)
-                if request.lower() == "connection closed":
-                    connected = False
+                client.send("!close".encode(FORMAT))
+                print("Conection closed.")
+                connected = False
             case _:
                 print("Invalid Option")
         
