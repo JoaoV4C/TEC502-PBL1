@@ -57,8 +57,8 @@ def run_client():
                     print(flight)
                     
                 # Escolhendo vôo e assento
-                qtd_voos = len(flights_needed)
-                fligh_seat = choose_ticket(qtd_voos)    # Lista com voos  
+                #qtd_voos = len(flights_needed)
+                fligh_seat = choose_ticket()    # Lista com voos  
 
                 # Serializando os dados com pickle
                 serialized_data = pickle.dumps(fligh_seat)
@@ -72,9 +72,9 @@ def run_client():
                 # Desserializa a resposta (True/False)
                 reservation_sucesses = pickle.loads(response_data)
                 if reservation_sucesses:
-                    print("Reserva realizada com sucesso!\n")
+                    print("Compra realizada com sucesso!\n")
                 else:
-                    print("Não foi possível realizar a reserva, voo esta lotado.\n")
+                    print("Não foi possível realizar a compra, voo esta lotado.\n")
             
             case "2": # não ta pronto ainda
                 client.send("2".encode(FORMAT)[:HEADER])

@@ -8,16 +8,12 @@ def register():
     name = input("Name: ")
     return name
 
-def choose_ticket(qtd_voos):
-    voos = []
+def choose_ticket():
     confirm = input("Deseja comprar sua passagem? ")
     if confirm == "y":
-        for i in range(qtd_voos):         
-            fligh = input("Digite o ID do voo: ")
-            voos.append(fligh)
+        return True
     else:
-        print("Compra cancelada!\n")
-    return voos
+        return False
 
 
 def menu(name):

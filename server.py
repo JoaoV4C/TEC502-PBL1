@@ -67,7 +67,7 @@ def handle_client(client_socket, client_address):
 
                 flights_needed = pickle.dumps(list_flights_needed(possible_routes))
                 client_socket.sendall(flights_needed)
-                
+                rotas = list_flights_needed(possible_routes)
                 # Recebe os dados serializados do cliente
                 flight_data = client_socket.recv(HEADER)
                 
@@ -75,37 +75,13 @@ def handle_client(client_socket, client_address):
                 fligh_seat = pickle.loads(flight_data)
                 
                 #chama a função para reservar o voo
-                send_clien = reserv_voo(fligh_seat)
+                send_clien = reserv_voo(fligh_seat, rotas)
                 
                 # Serializa o valor booleano (True/False)
                 send_clien_pickle = pickle.dumps(send_clien)
                 
                 # Envia a resposta serializada para o cliente
                 client_socket.sendall(send_clien_pickle)  
-                
-                
-                
-
-                # Ta com erro (não consegue encontrar o voo)
-                ''' for flight_id, seat in fligh_seat.items():
-                    for i in range(len(flights_list)):
-                        # Verifica se o voo existe na lista
-                        if int(flight_id) == flights_list[i]._id:
-                            fli = flights_list[i]
-                            if fli.reserve_seat(seat):
-                                print(f"Assento {seat} reservado com sucesso no voo {flight_id}.")
-                                break
-                            else:
-                                print(f"Falha ao reservar o assento {seat} no voo {flight_id}. Assento já ocupado ou inválido.")
-                                break    
-                        else:
-                            print(f"Voo {flight_id} não encontrado.")
-                            break
-                        
-                        
-                        
-                print(flights_list[5]._place_from)
-                print(flights_list[5]._place_to)'''
                 
                 # available_flights = [Flight(origin, destination) for _ in range(3)]
                 # # Exibe a lista de voos disponíveis e seus assentos
@@ -165,17 +141,18 @@ def handle_client(client_socket, client_address):
     client_socket.close()
     
     
-def reserv_voo(fligh_seat):
-    for id in fligh_seat:
-        for flight in flights_list:
-            if flight._id == int(id):
-                if flight.reserve_seat():# Chama o método reserve_seat
-                    print(f"Reserva realizada com sucesso para o voo {flight._id}")
-                    return True
-                else:
-                    print(f"Não foi possível reservar, voo {flight._id} está lotado.")
-                    return False
-
+def reserv_voo(fligh_seat, routs):
+    if fligh_seat:
+        for id in routs:
+            for flight in flights_list:
+                if flight._id == id._id:
+                    if flight.reserve_seat():
+                        print(f"Reserva realizada com sucesso para o voo {flight.place_from} --> {flight.place_to}")
+                        return True
+                    else:
+                        print(f"Não foi possível reservar, voo {flight._id} está lotado.")
+                        return False
+                        
 
 def list_flights_needed(possible_routes):
     route = possible_routes[0]
