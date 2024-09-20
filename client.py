@@ -23,14 +23,17 @@ def run_client():
             cpf = login()
             client.send(cpf.encode(FORMAT)[:HEADER]) #Escreve a mensagem a ser enviada nas primeiras posições de um vetor(string) de tamanho HEADERs
             confirmation = client.recv(HEADER).decode(FORMAT)
-            if(confirmation == "Logged"):
-                logged=True
-            else:
+
+            if(confirmation != "Logged"):
                 name = register()
                 client.send(name.encode(FORMAT)[:HEADER])
-                logged = True
-            request = client.recv(HEADER)
-            user = pickle.loads(request)
+                if(name != "_false_"):
+                    confirmation = client.recv(HEADER).decode(FORMAT)
+
+            if(confirmation == "Logged" or name != "_false_"):
+                logged=True
+                request = client.recv(HEADER)
+                user = pickle.loads(request)
 
         option = menu(user.name)
         client.send(option.encode(FORMAT)[:HEADER])

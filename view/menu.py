@@ -1,19 +1,29 @@
 def login():
     print("Login/Register")
-    user = input("CPF: ")
+    user = input("CPF(11 digits, only numbers): ")
+    while len(user) != 11 or (not user.isnumeric()):
+        user = input("Invalid CPF, try again: ")
     return user
 
 def register():
-    print("Register")
-    name = input("Name: ")
-    return name       
+    register = input("Do you want to register this new CPF? Y or N\n").lower()
+    while register not in ['y', 'n']:
+        register = input("Invalid option! Do you want to register this new CPF? Y or N\n").lower()
+
+    if register == "y":
+        print("Register")
+        name = input("Name: ")
+        while name == "" or name == "_false_":
+            name = input("Invalid name, try again: ")
+        return name
+    else:
+        return "_false_"
 
 def menu(name):
     print(f"""Hi {name}, Welcome To The Fast Pass Company!!
 1- Buy Ticket
 2- List your tickets
-3- Cancel a flight
-4- Logout""")
+3- Logout""")
     option = input("Choose an option: ")
     return option
 

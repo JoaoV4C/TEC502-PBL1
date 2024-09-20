@@ -30,18 +30,20 @@ def handle_client(client_socket, client_address):
             # Procura o passager na lista de passagers
             passager = find_passager(cpf_request)
 
-            if(passager != None):
-                client_socket.send("Logged".encode(FORMAT))
-            else:
+            if(passager == None):
                 client_socket.send("Register".encode(FORMAT))
                 name_request = client_socket.recv(HEADER).decode(FORMAT)
-                passager = Passager(name_request, cpf_request)
-                passager_list.append(passager)
-                
-            logged = True
-            passager_pickle = pickle.dumps(passager)
-            client_socket.send(passager_pickle)
+                if(name_request != "_false_"):
+                    passager = Passager(name_request, cpf_request)
+                    passager_list.append(passager)
+
+            if(passager != None):
+                client_socket.send("Logged".encode(FORMAT))
+                passager_pickle = pickle.dumps(passager)
+                client_socket.sendall(passager_pickle)
+                logged = True
             
+                
         # Recebe a opcão seleciondada pelo cliente
         request = client_socket.recv(HEADER).decode(FORMAT)
         if not request:
@@ -89,10 +91,6 @@ def handle_client(client_socket, client_address):
                 client_socket.send(tickets_pickle)
             
             case "3":
-                """Iniciar!!!"""
-                ...
-
-            case "4":
                 print(f"Connection {client_full_adress} closed")
                 client_socket.send("Connection Closed".encode(FORMAT))
                 connected = False
@@ -180,7 +178,6 @@ def run_server():
         thread.start()
         print(f"Active Connections {threading.active_count() - 1}")
 
-    # server.close()
 
 if __name__ == "__main__":
     print("Starting Server...")
