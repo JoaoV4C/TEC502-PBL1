@@ -142,16 +142,24 @@ def handle_client(client_socket, client_address):
     
     
 def reserv_voo(fligh_seat, routs):
+    all_reserved = True
     if fligh_seat:
         for id in routs:
+            flight_reserved = False
             for flight in flights_list:
                 if flight._id == id._id:
                     if flight.reserve_seat():
-                        print(f"Reserva realizada com sucesso para o voo {flight.place_from} --> {flight.place_to}")
-                        return True
+                        print(f"Reservation made successfully for the flight {flight.place_from} --> {flight.place_to}")
+                        flight_reserved = True
                     else:
-                        print(f"Não foi possível reservar, voo {flight._id} está lotado.")
-                        return False
+                        print(f"Unable to book, flight {flight._id} is full.")
+                        flight_reserved = False
+                        all_reserved = False
+            if not flight_reserved:
+                print(f"Flight with ID {route._id} not found in flights_list.")
+                all_reserved = False
+    return all_reserved
+            
                         
 
 def list_flights_needed(possible_routes):

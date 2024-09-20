@@ -56,36 +56,40 @@ def run_client():
                 for flight in flights_needed:
                     print(flight)
                     
-                # Escolhendo vôo e assento
-                #qtd_voos = len(flights_needed)
-                fligh_seat = choose_ticket()    # Lista com voos  
-
-                # Serializando os dados com pickle
-                serialized_data = pickle.dumps(fligh_seat)
-               
-                # Envia os dados para o servidor
-                client.send(serialized_data[:HEADER])
+                fligh_seat = choose_ticket()     
+                if fligh_seat:
+                        
+                    # Serializando os dados com pickle
+                    serialized_data = pickle.dumps(fligh_seat)
                 
-                # Recebe a resposta do servidor
-                response_data = client.recv(HEADER)
-                
-                # Desserializa a resposta (True/False)
-                reservation_sucesses = pickle.loads(response_data)
-                if reservation_sucesses:
-                    print("Compra realizada com sucesso!\n")
+                    # Envia os dados para o servidor
+                    client.send(serialized_data[:HEADER])
+                    
+                    # Recebe a resposta do servidor
+                    response_data = client.recv(HEADER)
+                    
+                    # Desserializa a resposta (True/False)
+                    reservation_sucesses = pickle.loads(response_data)
+                    if reservation_sucesses:
+                        print("Purchase completed successfully!\n")
+                    else:
+                        print("Unable to make purchase, flight is full.\n")
                 else:
-                    print("Não foi possível realizar a compra, voo esta lotado.\n")
-            
+                    serialized_data = pickle.dumps(fligh_seat)
+                    client.send(serialized_data[:HEADER])
+                    response_data = client.recv(HEADER)
+                    reservation_sucesses = pickle.loads(response_data)
+                    
             case "2": # não ta pronto ainda
                 client.send("2".encode(FORMAT)[:HEADER])
-                print('Solicitação enviada ao servidor.')
+                print('Request sent to server.')
                 try:
                     request = client.recv(HEADER)
-                    print('Resposta recebida do servidor.')
+                    print('Response received from server.')
                     tickets = pickle.loads(request)
-                    print('Tickets carregados:', tickets)
+                    print('Tickets loaded: ', tickets)
                 except Exception as e:
-                    print(f"Erro ao receber tickets: {e}")
+                    print(f"Error receiving tickets: {e}")
 
             case "4":
                 client.send("!close".encode(FORMAT))

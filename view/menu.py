@@ -9,7 +9,7 @@ def register():
     return name
 
 def choose_ticket():
-    confirm = input("Deseja comprar sua passagem? ")
+    confirm = input("Do you want to buy your ticket? ")
     if confirm == "y":
         return True
     else:
@@ -43,7 +43,7 @@ def confirm_purchase():
     if confirm == 'sim':
         print('\nPURCHASE MADE\n')
         return True
-    elif confirm == 'não':
+    else:
         print('\nPURCHASE CANCELLED\n')
         return False
         
