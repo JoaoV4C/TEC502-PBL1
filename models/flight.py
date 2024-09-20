@@ -6,7 +6,7 @@ class Flight:
         Flight._id_counter += 1
         self._place_from = place_from
         self._place_to = place_to
-        self._available_seats = 1  # Definindo 10 vagas inicialmente
+        self._available_seats = 30  # Definindo 30 vagas inicialmente
 
     def __repr__(self):
     

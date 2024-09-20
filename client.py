@@ -52,7 +52,7 @@ def run_client():
                 # Recebe a lista de voos e assentos disponíveis
                 flights_needed = pickle.loads(request)
                 
-                print("\nAvailable Flights and Seats:")
+                print("\nAvailable Flights:")
                 for flight in flights_needed:
                     print(flight)
                     
