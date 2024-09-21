@@ -42,64 +42,47 @@ def run_client():
             case "1":
                 # Recebe o pickle com a lista de cidades e exibe para o usuário
                 request = client.recv(HEADER)
-                citys = pickle.loads(request) 
-                list_citys(citys)
+                airport_list = pickle.loads(request) 
+                list_cities(airport_list)
+
                 # Pergunta a origem e destino da passagem e envia para o servidor
                 origin, destinantion = buy_ticket()
                 client.send(f"{origin}:{destinantion}".encode(FORMAT)[:HEADER])
+
                 # Recebe as rotas possíveis e exibe para o usuário
-                possible_routes = client.recv(HEADER).decode(FORMAT)
-                #show_route(possible_routes)
-                
-                request = client.recv(HEADER)
-                # Recebe a lista de voos e assentos disponíveis
-                flights_needed = pickle.loads(request)
-                
-                print("\nAvailable Flights:")
-                for flight in flights_needed:
-                    print(flight)
-                    
-                fligh_seat = choose_ticket()     
-                if fligh_seat:
+                best_route = client.recv(HEADER)
+                best_route = pickle.loads(best_route)
+                show_route(best_route)
+
+                if(len(best_route) > 0):
+                    # Recebe a lista de voos e assentos disponíveis
+                    request = client.recv(HEADER)
+                    flights_needed = pickle.loads(request)
+                    show_fights_needed(flights_needed)
                         
-                    # Serializando os dados com pickle
-                    serialized_data = pickle.dumps(fligh_seat)
-                
-                    # Envia os dados para o servidor
-                    client.send(serialized_data[:HEADER])
-                    
-                    # Recebe a resposta do servidor
-                    response_data = client.recv(HEADER)
-                    
-                    # Desserializa a resposta (True/False)
-                    reservation_sucesses = pickle.loads(response_data)
-                    if reservation_sucesses:
-                        print("Purchase completed successfully!\n")
-                    else:
-                        print("Unable to make purchase, flight is full.\n")
-                else:
-                    serialized_data = pickle.dumps(fligh_seat)
-                    client.send(serialized_data[:HEADER])
-                    response_data = client.recv(HEADER)
-                    reservation_sucesses = pickle.loads(response_data)
+                    # Pergunta se o usuário deseja comprar a passagem
+                    confirmation = confirm_purchase()
+                    client.send(str(confirmation).encode(FORMAT)[:HEADER])
+                    if confirmation:
+                        # Recebe a resposta do servidor e eesserializa (True/False)
+                        response_data = client.recv(HEADER)
+                        reservation_sucesses = pickle.loads(response_data)
+                        if reservation_sucesses:
+                            print("Purchase completed successfully!\n")
+                        else:
+                            print("Unable to make purchase, flight is full.\n")
                     
             case "2": 
-                # Envia a requisição para o servidor (case "2")
-                client.send("2".encode(FORMAT))
-                
-                # Recebe a lista serializada de passagens
+                # Recebe a lista de passagens
                 tickets_data = client.recv(HEADER)
-                
-                # Desserializa a lista de passagens
                 tickets = pickle.loads(tickets_data)
-                
                 show_tickets(tickets)
- 
 
-            case "4":
+            case "3":
                 client.send("!close".encode(FORMAT))
                 print("Conection closed.")
                 connected = False
+
             case _:
                 print("Invalid Option")
         
