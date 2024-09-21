@@ -3,6 +3,7 @@ import threading
 from models.passager import Passager
 from mocks import *
 import pickle
+from models.ticket import Ticket
 
 #Definindo constantes
 HEADER = 4096
@@ -73,9 +74,11 @@ def handle_client(client_socket, client_address):
                 
                 # Desserializa os dados
                 fligh_seat = pickle.loads(flight_data)
+                print(fligh_seat)
                 
                 #chama a função para reservar o voo
-                send_clien = reserv_voo(fligh_seat, rotas)
+                send_clien = reserv_voo(passager, fligh_seat, rotas)
+
                 
                 # Serializa o valor booleano (True/False)
                 send_clien_pickle = pickle.dumps(send_clien)
@@ -124,15 +127,10 @@ def handle_client(client_socket, client_address):
                 #     client_socket.send("PURCHASE CANCELLED.".encode(FORMAT))
             
             case "2": # não ta pronto ainda
-                print(f"teste -> {passager.name}")
-                if hasattr(passager, 'tickets') and passager.tickets:
-                    # Serializa e envia a lista de passagens compradas
-                    tickets_pickle = pickle.dumps(passager.tickets)
-                    client_socket.send(tickets_pickle)
-                else:
-                    # Envia uma mensagem indicando que não há passagens compradas
-                    client_socket.send(pickle.dumps([]))
-
+                # Serializa a lista de tickets do passageiro
+                tickets_pickle = pickle.dumps(passager.tickets)
+                # Envia a lista de passagens compradas para o cliente 
+                client_socket.sendall(tickets_pickle)
             case "4":
                 print(f"Connection {client_full_adress} closed")
                 connected = False
@@ -141,7 +139,7 @@ def handle_client(client_socket, client_address):
     client_socket.close()
     
     
-def reserv_voo(fligh_seat, routs):
+def reserv_voo(passager, fligh_seat, routs):
     all_reserved = True
     if fligh_seat:
         for id in routs:
@@ -151,6 +149,9 @@ def reserv_voo(fligh_seat, routs):
                     if flight.reserve_seat():
                         print(f"Reservation made successfully for the flight {flight.place_from} --> {flight.place_to}")
                         flight_reserved = True
+                        # Criar um objeto Ticket e adicionar ao passageiro
+                        ticket = Ticket(passager.id, flight._id, flight._place_from, flight._place_to,)
+                        passager.add_ticket(ticket) # Adiciona o ticket ao passageiro
                     else:
                         print(f"Unable to book, flight {flight._id} is full.")
                         flight_reserved = False

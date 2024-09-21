@@ -46,7 +46,7 @@ def run_client():
                 client.send(f"{origin}:{destinantion}".encode(FORMAT)[:HEADER])
                 # Recebe as rotas possíveis e exibe para o usuário
                 possible_routes = client.recv(HEADER).decode(FORMAT)
-                show_route(possible_routes)
+                #show_route(possible_routes)
                 
                 request = client.recv(HEADER)
                 # Recebe a lista de voos e assentos disponíveis
@@ -81,15 +81,17 @@ def run_client():
                     reservation_sucesses = pickle.loads(response_data)
                     
             case "2": # não ta pronto ainda
-                client.send("2".encode(FORMAT)[:HEADER])
-                print('Request sent to server.')
-                try:
-                    request = client.recv(HEADER)
-                    print('Response received from server.')
-                    tickets = pickle.loads(request)
-                    print('Tickets loaded: ', tickets)
-                except Exception as e:
-                    print(f"Error receiving tickets: {e}")
+                # Envia a requisição para o servidor (case "2")
+                client.send("2".encode(FORMAT))
+                
+                # Recebe a lista serializada de passagens
+                tickets_data = client.recv(HEADER)
+                
+                # Desserializa a lista de passagens
+                tickets = pickle.loads(tickets_data)
+                
+                show_tickets(tickets)
+ 
 
             case "4":
                 client.send("!close".encode(FORMAT))
