@@ -80,7 +80,7 @@ def run_client():
                     response_data = client.recv(HEADER)
                     reservation_sucesses = pickle.loads(response_data)
                     
-            case "2": # não ta pronto ainda
+            case "2": 
                 # Envia a requisição para o servidor (case "2")
                 client.send("2".encode(FORMAT))
                 

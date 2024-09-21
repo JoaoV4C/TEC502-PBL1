@@ -18,11 +18,11 @@ def choose_ticket():
 def show_tickets(tickets):
         # Exibe as passagens
     if tickets:
-        print("Lista de passagens compradas:")
+        print("List of purchased tickets:")
         for idx, ticket in enumerate(tickets, 1):
             print(f"{idx}. Flight ID: {ticket.id_flight}\n{ticket.origin} -->{ticket.destination}\n")
     else:
-        print("Nenhuma passagem comprada.")
+        print("No tickets purchased.")
 
 
 def menu(name):

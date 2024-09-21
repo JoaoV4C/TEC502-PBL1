@@ -126,7 +126,7 @@ def handle_client(client_socket, client_address):
                 #     print('PURCHASE CANCELLED BY THE CLIENT')
                 #     client_socket.send("PURCHASE CANCELLED.".encode(FORMAT))
             
-            case "2": # não ta pronto ainda
+            case "2": 
                 # Serializa a lista de tickets do passageiro
                 tickets_pickle = pickle.dumps(passager.tickets)
                 # Envia a lista de passagens compradas para o cliente 
