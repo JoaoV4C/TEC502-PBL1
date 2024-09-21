@@ -39,4 +39,4 @@ class Passager:
         if ticket in self._tickets:
             self._tickets.remove(ticket)
         else:
-            print("Ticket não encontrado.")
+            print("Ticket not found.")
