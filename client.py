@@ -68,14 +68,12 @@ def run_client():
                     # Pergunta se o usuário deseja comprar a passagem
                     confirmation = confirm_purchase()
                     client.send(str(confirmation).encode(FORMAT)[:HEADER])
+                    
                     if confirmation:
                         # Recebe a resposta do servidor e eesserializa (True/False)
                         response_data = client.recv(HEADER)
                         reservation_sucesses = pickle.loads(response_data)
-                        if reservation_sucesses:
-                            print("Purchase completed successfully!\n")
-                        else:
-                            print("Unable to make purchase, flight is full.\n")
+                        reserve_confirmation(reservation_sucesses)
                     
             # Listar passagens
             case "2": 

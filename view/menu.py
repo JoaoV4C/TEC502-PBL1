@@ -80,3 +80,9 @@ def show_route(best_route):
             print(f"Route: {best_route}")    
     else:
         print("Unavailable Flight")
+
+def reserve_confirmation(confirmation):
+    if confirmation:
+        print("Purchase completed successfully!\n")
+    else:
+        print("Unable to make purchase, flight is full.\n")

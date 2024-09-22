@@ -1,7 +1,7 @@
 import socket
 import threading
 from models.passager import Passager
-from mocks import *
+from mocks.mocks import *
 import pickle
 from models.ticket import Ticket
 
