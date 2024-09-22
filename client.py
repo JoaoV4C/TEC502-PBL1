@@ -12,33 +12,38 @@ ADDR = (SERVER,PORT)
 
 def run_client():
     # Cria um objeto socket
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #primeiro argumento indica protocolo IPv4; conexão TCP
-
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Primeiro argumento indica protocolo IPv4; Conexão TCP
     #O método connect tenta estabelecer uma conexão TCP com o servidor utilizando o IP e a porta especificados
     client.connect(ADDR)
     connected = True
     logged = False
+
     while connected:
-        while not logged:   
+        while not logged:
+            # Recebe o cpf do usuário e envia para o servidor para verificar se o usuário está cadastrado
             cpf = login()
             client.send(cpf.encode(FORMAT)[:HEADER]) #Escreve a mensagem a ser enviada nas primeiras posições de um vetor(string) de tamanho HEADERs
             confirmation = client.recv(HEADER).decode(FORMAT)
 
+            # Se a mensagem recebida for diferente de "Logged", solicita o registro
             if(confirmation != "Logged"):
                 name = register()
                 client.send(name.encode(FORMAT)[:HEADER])
                 if(name != "_false_"):
                     confirmation = client.recv(HEADER).decode(FORMAT)
 
+            # Se a mensagem recebida for "Logged" ou o nome for diferente de "_false_", o usuário está logado
             if(confirmation == "Logged" or name != "_false_"):
                 logged=True
                 request = client.recv(HEADER)
                 user = pickle.loads(request)
 
+        # Exibe o menu para o usuário e envia a opção selecionada para o servidor
         option = menu(user.name)
         client.send(option.encode(FORMAT)[:HEADER])
 
         match option:
+            # Compra de passagem
             case "1":
                 # Recebe o pickle com a lista de cidades e exibe para o usuário
                 request = client.recv(HEADER)
@@ -72,17 +77,19 @@ def run_client():
                         else:
                             print("Unable to make purchase, flight is full.\n")
                     
+            # Listar passagens
             case "2": 
-                # Recebe a lista de passagens
                 tickets_data = client.recv(HEADER)
                 tickets = pickle.loads(tickets_data)
                 show_tickets(tickets)
 
+            # Logout
             case "3":
-                client.send("!close".encode(FORMAT))
-                print("Conection closed.")
+                request = client.recv(HEADER)[:HEADER]
+                print(request)
                 connected = False
 
+            # Opção inválida
             case _:
                 print("Invalid Option")
         
@@ -91,5 +98,4 @@ def run_client():
     print("Connection Closed!")
 
 if __name__ == "__main__":
-    
     run_client()

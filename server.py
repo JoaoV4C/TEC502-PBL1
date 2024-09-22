@@ -14,6 +14,7 @@ SERVER = 'localhost'
 PORT = 5050
 ADDR = (SERVER,PORT)
 
+# Listas para armazenar os dados gerados
 flights_list = []
 passager_list = []
 airport_list = []
@@ -23,104 +24,112 @@ def handle_client(client_socket, client_address):
     print(f"Accepted connection from {client_full_adress}")
     connected = True
     logged = False
+
     while connected:
-        while not logged:
-            # Recebe a mensagem do cliente e decodifica
-            cpf_request = client_socket.recv(HEADER).decode(FORMAT)
-            # Procura o passager na lista de passagers
-            passager = find_passager(cpf_request)
+        try:
+            while not logged:
+                # Recebe a mensagem do cliente e decodifica
+                cpf_request = client_socket.recv(HEADER).decode(FORMAT)
+                # Procura o passager na lista de passagers
+                passager = find_passager(cpf_request)
 
-            if(passager == None):
-                client_socket.send("Register".encode(FORMAT))
-                name_request = client_socket.recv(HEADER).decode(FORMAT)
-                if(name_request != "_false_"):
-                    passager = Passager(name_request, cpf_request)
-                    passager_list.append(passager)
+                # Se o passager não existir, solicita o registro
+                if(passager == None):
+                    client_socket.send("Register".encode(FORMAT))
+                    name_request = client_socket.recv(HEADER).decode(FORMAT)
 
-            if(passager != None):
-                client_socket.send("Logged".encode(FORMAT))
-                passager_pickle = pickle.dumps(passager)
-                client_socket.sendall(passager_pickle)
-                logged = True
-            
+                    # Se o nome for diferente de "_false_", cria um novo passager
+                    if(name_request != "_false_"):
+                        passager = Passager(name_request, cpf_request)
+                        passager_list.append(passager)
+
+                # Se o passager for encontrado, envia os dados do passager para o cliente
+                if(passager != None):
+                    client_socket.send("Logged".encode(FORMAT))
+                    passager_pickle = pickle.dumps(passager)
+                    client_socket.sendall(passager_pickle)
+                    logged = True
                 
-        # Recebe a opcão seleciondada pelo cliente
-        request = client_socket.recv(HEADER).decode(FORMAT)
-        if not request:
-            connected = False
-            break  # Saia do loop de recebimento se não houver dados
-        
-        match request:
-            # Compra de passagem
-            case "1":
-                # Transforma a lista de cidades em um pickle e envia para o cliente
-                airport_pickle = pickle.dumps(airport_list)
-                client_socket.sendall(airport_pickle)
-
-                # Recebe e separa a origem e destino da passagem recebida do cliente
-                request = client_socket.recv(HEADER).decode(FORMAT)        
-                origin, destination = request.split(":")
-
-                # Encontra as rotas possíveis para as cidade de origem e destino e envia para o cliente
-                possible_routes = find_routes(airport_list, origin, destination)
-                best_route = get_best_route(possible_routes)
-                best_route_pickle = pickle.dumps(best_route)
-                client_socket.sendall(best_route_pickle)
-
-                if(len(best_route) > 0):
-                    # Envia a lista de voos necessários para a rota
-                    flights_needed = list_flights_needed(best_route)
-                    flights_needed_pickle = pickle.dumps(list_flights_needed(best_route))
-                    client_socket.sendall(flights_needed_pickle)
-
-                    # Recebe a confirmação do cliente para a compra da passagem
-                    confirmation = client_socket.recv(HEADER).decode(FORMAT)
-                    confirmation = eval(confirmation)
-
-                    if(confirmation):
-                        send_client = reserv_voo(passager, flights_needed)
-                        # Serializa o valor booleano (True/False)
-                        send_client_pickle = pickle.dumps(send_client)
-                        
-                        # Envia a resposta serializada para o cliente
-                        client_socket.sendall(send_client_pickle)  
-            
-            case "2": 
-                # Serializa a lista de tickets do passageiro
-                tickets_pickle = pickle.dumps(passager.tickets)
-                # Envia a lista de passagens compradas para o cliente 
-                client_socket.sendall(tickets_pickle)
-
-            case "3":
-                print(f"Connection {client_full_adress} closed")
+                    
+            # Recebe a opcão seleciondada pelo cliente
+            request = client_socket.recv(HEADER).decode(FORMAT)
+            if not request:
                 connected = False
-                client_socket.send("Connection closed.".encode(FORMAT))
+                break  # Saia do loop de recebimento se não houver dados
+            
+            match request:
+                # Compra de passagem
+                case "1":
+                    # Transforma a lista de cidades em um pickle e envia para o cliente
+                    airport_pickle = pickle.dumps(airport_list)
+                    client_socket.sendall(airport_pickle)
+
+                    # Recebe e separa a origem e destino da passagem recebida do cliente
+                    request = client_socket.recv(HEADER).decode(FORMAT)        
+                    origin, destination = request.split(":")
+
+                    # Encontra as rotas possíveis para as cidade de origem e destino e envia para o cliente
+                    possible_routes = find_routes(airport_list, origin, destination)
+                    best_route = get_best_route(possible_routes)
+                    best_route_pickle = pickle.dumps(best_route)
+                    client_socket.sendall(best_route_pickle)
+
+                    if(len(best_route) > 0):
+                        # Envia a lista de voos necessários para a rota
+                        flights_needed = list_flights_needed(best_route)
+                        flights_needed_pickle = pickle.dumps(list_flights_needed(best_route))
+                        client_socket.sendall(flights_needed_pickle)
+
+                        # Recebe a confirmação do cliente para a compra da passagem
+                        confirmation = client_socket.recv(HEADER).decode(FORMAT)
+                        confirmation = eval(confirmation)
+
+                        if(confirmation):
+                            send_client = reserve_flight(passager, flights_needed)
+                            # Serializa o valor booleano (True/False)
+                            send_client_pickle = pickle.dumps(send_client)
+                            # Envia a resposta serializada para o cliente
+                            client_socket.sendall(send_client_pickle)  
+                
+                # Listar passagens
+                case "2": 
+                    # Serializa a lista de tickets do passageiro e nvia a lista de passagens compradas para o cliente 
+                    tickets_pickle = pickle.dumps(passager.tickets)
+                    client_socket.sendall(tickets_pickle)
+
+                # Encerra a conexão
+                case "3":
+                    print(f"Connection {client_full_adress} closed")
+                    client_socket.send("Connection closed.".encode(FORMAT))
+                    connected = False
+                    
+        # Trata exceções
+        except Exception as e:
+            print(f"Error: {e}")
+            print(f"Connection {client_full_adress} closed")
+            connected = False
             
     client_socket.close()
     
-    
-def reserv_voo(passager, routes):
+# Verifica se há assentos disponíveis em todos os voos necessários e reserva-os
+def reserve_flight(passager, flights):
     all_reserved = True
-    for id in routes:
-        flight_reserved = False
-        for flight in flights_list:
-            if flight._id == id._id:
-                if flight.reserve_seat():
-                    print(f"Reservation made successfully for the flight {flight.place_from} --> {flight.place_to}")
-                    flight_reserved = True
-                    # Criar um objeto Ticket e adicionar ao passageiro
-                    ticket = Ticket(passager.id, flight._id, flight._place_from, flight._place_to,)
-                    passager.add_ticket(ticket) # Adiciona o ticket ao passageiro
-                else:
-                    print(f"Unable to book, flight {flight._id} is full.")
-                    flight_reserved = False
-                    all_reserved = False
-        if not flight_reserved:
-            print(f"Flight with ID {id._id} not found in flights_list.")
+    for flight in flights:
+        if flight.available_seats == 0:
             all_reserved = False
+            break
+
+    # Se todos os voos tiverem assentos disponíveis, reserva-os e cria um ticket para o passager
+    if all_reserved:
+        for flight in flights:
+            print(f"Reservation made successfully for the flight {flight.place_from} --> {flight.place_to}")
+            flight.reserve_seat()
+            ticket = Ticket(passager.id, flight._id, flight._place_from, flight._place_to)
+            passager.add_ticket(ticket)
+            
     return all_reserved
                  
-
+# Cria a lista de voos necessários para a rota
 def list_flights_needed(best_route):
     flights_needed = []
     for i in range(len(best_route) - 1):
@@ -129,18 +138,21 @@ def list_flights_needed(best_route):
                 flights_needed.append(flight)
     return flights_needed
 
+# Cria a lista de aeroportos
 def list_citys(airport_list):
     citys = []
     for airport in airport_list:
         citys.append(airport.name)
     return citys
 
+# Encontra o passager pelo CPF
 def find_passager(cpf):
     for passager in passager_list:
         if passager.cpf == cpf:
             return passager
     return None
 
+# Encontra as rotas possíveis entre a origem e o destino
 def find_routes(airports, origin, destination, current_route=None, possible_routes=None):
     if current_route is None:
         current_route = [origin]  # Inicializa a rota atual com o aeroporto de origin
@@ -168,6 +180,7 @@ def find_routes(airports, origin, destination, current_route=None, possible_rout
 
     return possible_routes
 
+# Retorna a melhor rota dentre as possíveis
 def get_best_route(possible_routes):
     if len(possible_routes) == 0:
         return []
@@ -186,10 +199,12 @@ def run_server():
 
     while True:
         client_socket, client_address = server.accept()
-        thread = threading.Thread(target=handle_client, args=(client_socket,client_address))
-        thread.start()
-        print(f"Active Connections {threading.active_count() - 1}")
-
+        try:
+            thread = threading.Thread(target=handle_client, args=(client_socket,client_address))
+            thread.start()
+            print(f"Active Connections {threading.active_count() - 1}")
+        except Exception as e:
+            print(f"Error: {e}")
 
 if __name__ == "__main__":
     print("Starting Server...")
