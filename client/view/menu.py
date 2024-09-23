@@ -25,7 +25,7 @@ def register():
 def list_cities(airport_list):
     print("\nAvailable Cities: ")
     for airport in airport_list:
-        print(airport.name)
+        print(airport["_name"])
 
 # Função para confirmar a compra
 def confirm_purchase():
@@ -41,23 +41,23 @@ def confirm_purchase():
 def show_fights_needed(flights_needed):
     print("\nTickets Needed:")
     for flight in flights_needed:
-        print(flight)
+        print(f"Flight ID {flight["_id"]}\nFrom: {flight["_place_from"]}\nTo: {flight["_place_to"]}\nAvailable Seats: {flight["_available_seats"]}\n")
 
 # Função para exibir as passagens de um usuário
 def show_tickets(tickets):
     if tickets:
         print("List of purchased tickets:")
         for idx, ticket in enumerate(tickets, 1):
-            print(f"{idx}. Flight ID: {ticket.id_flight}\n{ticket.origin} --> {ticket.destination}\n")
+            print(f"{idx}. Flight ID: {ticket["_id_flight"]}\n{ticket["_origin"]} --> {ticket["_destination"]}\n")
     else:
         print("No tickets purchased.")
 
 # Função para exibir o menu
-def menu(name):
-    print(f"""Hi {name}, Welcome To The Fast Pass Company!!
-1- Buy Ticket
-2- List your tickets
-3- Logout""")
+def menu(user):
+    print(f"""Hi {user["_name"]}, Welcome To The Fast Pass Company!!
+1 - Buy Ticket
+2 - List your tickets
+3 - Logout""")
     option = input("Choose an option: ")
     return option
 
