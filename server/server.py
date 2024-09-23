@@ -119,7 +119,7 @@ def reserve_flight(passager, flights):
     # Se todos os voos tiverem assentos disponíveis, reserva-os e cria um ticket para o passager
     if all_reserved:
         for flight in flights:
-            print(f"Reservation made successfully for the flight {flight.place_from} --> {flight.place_to}")
+            print(f"Passager: {passager.name} - Reservation made successfully for the flight {flight.place_from} --> {flight.place_to}")
             flight.reserve_seat()
             ticket = Ticket(passager.id, flight._id, flight._place_from, flight._place_to)
             passager.add_ticket(ticket)
