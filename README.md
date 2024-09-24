@@ -67,6 +67,7 @@ O servidor foi inicializado em um ambiente local, utilizando a API de sockets TC
   <img src="https://github.com/user-attachments/assets/f4b5e8b4-0da5-42c6-97c9-5935d40084c1" alt="Descrição da imagem">
   <figcaption>figura 3. Conexão com o servidor estabelecida </figcaption>
 </figure>
+
 A conexão do servidor foi estabelecida com sucesso, permanecendo estável durante todo o período de teste. O servidor foi capaz de escutar continuamente por novas conexões sem interrupções ou falhas. O log do servidor registrou corretamente os eventos de inicialização e as conexões recebidas.
 
 Um cliente foi executado em um terminal/máquina diferente para se conectar ao servidor utilizando o IP e a porta definidos. O cliente enviou solicitações de consulta de voos e reserva de assentos.
