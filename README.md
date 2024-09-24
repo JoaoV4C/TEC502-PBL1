@@ -1,7 +1,9 @@
 # TEC502-PBL1
 ## Discentes 
-**Humberto Costa**
-**João Victor Alves**
+-**Humberto Costa**
+-**João Victor Alves**
+## Docente
+-** Antonio A T R Coutinho**
 
 
 	Introdução
