@@ -65,23 +65,22 @@ Nesta seção, apresentamos os principais testes realizados durante o desenvolvi
 O servidor foi inicializado em um ambiente local, utilizando a API de sockets TCP/IP. Testamos se o servidor conseguia escutar a porta designada e estava pronto para receber solicitações de clientes:
 <figure>
   <img src="https://github.com/user-attachments/assets/f4b5e8b4-0da5-42c6-97c9-5935d40084c1" alt="Descrição da imagem">
-  <figcaption>figura 3. Conexão com o servidor estabelecida
-</figcaption>
+  <figcaption>figura 3. Conexão com o servidor estabelecida </figcaption>
 </figure>
 A conexão do servidor foi estabelecida com sucesso, permanecendo estável durante todo o período de teste. O servidor foi capaz de escutar continuamente por novas conexões sem interrupções ou falhas. O log do servidor registrou corretamente os eventos de inicialização e as conexões recebidas.
 
 Um cliente foi executado em um terminal/máquina diferente para se conectar ao servidor utilizando o IP e a porta definidos. O cliente enviou solicitações de consulta de voos e reserva de assentos.
 <figure>
   <img src="https://github.com/user-attachments/assets/ca16c707-6469-4149-a0ff-b91173596de3" alt="Descrição da imagem">
-  <figcaption>Figura 4. Conexão do cliente com o servidor estabelecida</figcaption>
+  <figcaption>Figura 4. Conexão do cliente com o servidor estabelecida </figcaption>
 </figure>
+
 A conexão foi estabelecida corretamente, e o cliente pôde enviar e receber dados do servidor sem interrupções. As consultas e reservas foram processadas de acordo com os parâmetros enviados, e o cliente recebeu as respostas apropriadas para cada solicitação. O tempo de resposta foi satisfatório, com latência mínima, indicando uma comunicação eficiente.
 
 Houve a conexão simultânea de mais de um cliente ao servidor. Cada cliente conseguiu estabelecer uma comunicação bem-sucedida, e o servidor registrou adequadamente essas conexões, exibindo a origem de cada uma delas. Isso demonstra que o servidor foi capaz de gerenciar múltiplas conexões de forma eficiente.
 <figure>
   <img src="https://github.com/user-attachments/assets/f2e96d76-8aab-4833-ba25-bded52fa0b72" alt="Descrição da imagem">
-  <figcaption>Figura 5. Múltiplas conexões 
-</figcaption>
+  <figcaption>Figura 5. Múltiplas conexões  </figcaption>
 </figure>
 
 Dois clientes diferentes tentaram comprar a única passagem restante em um voo de forma simultânea. O servidor deveria garantir que apenas uma das transações fosse concluída com sucesso, evitando a duplicidade de compras.
