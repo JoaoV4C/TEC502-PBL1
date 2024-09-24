@@ -1,7 +1,7 @@
 # TEC502-PBL1
 ## Discentes 
-**Humberto Costa 
-João Victor Alves
+**Humberto Costa**
+**João Victor Alves**
 
 
 	Introdução
