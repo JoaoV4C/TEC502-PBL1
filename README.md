@@ -3,6 +3,9 @@
 ## Discentes
 - **Humberto Bandeira Costa**
 - **João Victor Alves**
+## Docente
+- **Antonio A T R Coutinho**
+#
 
 
 	Introdução
