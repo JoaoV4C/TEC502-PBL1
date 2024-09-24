@@ -23,7 +23,8 @@ A estrutura cliente-servidor é um modelo de arquitetura de rede amplamente util
    Sockets
 Sockets são uma abstração fundamental para a comunicação em rede, permitindo a troca de dados entre um cliente e um servidor. Eles oferecem uma interface de programação que facilita a implementação de protocolos de comunicação, seja em um ambiente local ou na Internet. <figure>
   <img src="https://github.com/user-attachments/assets/7f0e0bb4-ba84-48bd-9337-3abb0d12e6ef" alt="Descrição da imagem">
-  <figcaption>Legenda da imagem</figcaption>
+  <figcaption>figura 1. Esquema representando como o socket funciona no cliente-servidor
+</figcaption>
 </figure>
 
 
