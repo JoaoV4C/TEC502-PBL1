@@ -1,4 +1,5 @@
 import socket
+from time import sleep
 import threading
 from models.passager import Passager
 from mocks.mocks import *
@@ -10,7 +11,7 @@ HEADER = 4096
 FORMAT = "utf-8"
 
 # Definindo o endereço e porta que o servidor vai se conectar
-SERVER = 'localhost'
+SERVER = '0.0.0.0'
 PORT = 5050
 ADDR = (SERVER, PORT)
 
@@ -195,8 +196,8 @@ def run_server():
     print(f"Listening on {SERVER}:{PORT}")
 
     while True:
-        client_socket, client_address = server.accept()
         try:
+            client_socket, client_address = server.accept()
             thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
             thread.start()
             print(f"Active Connections {threading.active_count() - 1}")

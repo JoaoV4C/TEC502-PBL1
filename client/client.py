@@ -7,7 +7,7 @@ HEADER = 4096
 FORMAT = "utf-8"
 
 # Definindo o endereço e porta que o servidor vai se conectar
-SERVER = "localhost"
+SERVER = "airport-server"
 PORT = 5050
 ADDR = (SERVER, PORT)
 

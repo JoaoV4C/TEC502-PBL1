@@ -32,7 +32,3 @@ def create_airports():
         airport_obj = Airport(name, code, connections)
         airport_objects.append(airport_obj)
     return airport_objects
-
-# a = create_airports()
-# b = create_flights(a)
-# print(b)
