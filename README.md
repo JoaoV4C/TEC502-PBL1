@@ -54,3 +54,72 @@ A formatação de dados desempenhou um papel essencial no desenvolvimento do sis
 </figcaption>
 </figure>
 
+   Statefull x Stateless
+Neste projeto, adotamos uma abordagem stateful para a comunicação entre cliente e servidor. Isso significa que, durante toda a interação do cliente com o servidor, o estado da conexão é mantido, permitindo que o servidor "lembre" do cliente ao longo da sessão e continue o processamento a partir do ponto onde a comunicação parou. Optamos pela abordagem stateful devido à necessidade de manter a sessão do cliente ao longo do processo de compra. Isso permite que o servidor detenha o estado do cliente, como informações de login e a possibilidade de realizar consultas sobre voos e rotas, sem a necessidade de repetir a autenticação. Além disso, por lidarmos com transações sensíveis, como a compra de passagens aéreas, a persistência do estado assegura que a comunicação seja confiável e consistente, garantindo que cada etapa da compra seja processada de forma segura e sem interrupções.
+
+   Tratamento de Conexões Simultâneas
+No desenvolvimento deste sistema, implementamos o tratamento de conexões simultâneas para garantir que múltiplos clientes pudessem interagir com o servidor ao mesmo tempo. Utilizamos a biblioteca threading do Python, que permite a criação de threads para cada cliente conectado. Cada nova conexão estabelecida é tratada em uma thread separada, garantindo que várias solicitações possam ser processadas simultaneamente. Essa abordagem é fundamental para garantir que o servidor permaneça responsivo, mesmo quando vários clientes estão realizando consultas de voos ou efetuando a compra de passagens ao mesmo tempo. A capacidade de lidar com conexões simultâneas foi essencial para simular um ambiente real de atendimento online, onde o sistema precisa processar várias requisições de diferentes usuários de maneira rápida e eficiente, sem que uma conexão interfira no desempenho das outras.
+
+	Testes e Resultados
+Nesta seção, apresentamos os principais testes realizados durante o desenvolvimento do sistema de comunicação cliente-servidor, bem como os resultados obtidos. Cada teste foi desenhado para verificar a integridade, a performance e a confiabilidade do sistema em diferentes cenários. Os testes foram realizados tanto no ambiente de desenvolvimento quanto em simulações de situações reais de uso.
+O servidor foi inicializado em um ambiente local, utilizando a API de sockets TCP/IP. Testamos se o servidor conseguia escutar a porta designada e estava pronto para receber solicitações de clientes:
+<figure>
+  <img src="https://github.com/user-attachments/assets/f4b5e8b4-0da5-42c6-97c9-5935d40084c1" alt="Descrição da imagem">
+  <figcaption>figura 3. Conexão com o servidor estabelecida
+</figcaption>
+</figure>
+A conexão do servidor foi estabelecida com sucesso, permanecendo estável durante todo o período de teste. O servidor foi capaz de escutar continuamente por novas conexões sem interrupções ou falhas. O log do servidor registrou corretamente os eventos de inicialização e as conexões recebidas.
+
+Um cliente foi executado em um terminal/máquina diferente para se conectar ao servidor utilizando o IP e a porta definidos. O cliente enviou solicitações de consulta de voos e reserva de assentos.
+<figure>
+  <img src="https://github.com/user-attachments/assets/ca16c707-6469-4149-a0ff-b91173596de3" alt="Descrição da imagem">
+  <figcaption>Figura 4. Conexão do cliente com o servidor estabelecida</figcaption>
+</figure>
+A conexão foi estabelecida corretamente, e o cliente pôde enviar e receber dados do servidor sem interrupções. As consultas e reservas foram processadas de acordo com os parâmetros enviados, e o cliente recebeu as respostas apropriadas para cada solicitação. O tempo de resposta foi satisfatório, com latência mínima, indicando uma comunicação eficiente.
+
+Houve a conexão simultânea de mais de um cliente ao servidor. Cada cliente conseguiu estabelecer uma comunicação bem-sucedida, e o servidor registrou adequadamente essas conexões, exibindo a origem de cada uma delas. Isso demonstra que o servidor foi capaz de gerenciar múltiplas conexões de forma eficiente.
+<figure>
+  <img src="https://github.com/user-attachments/assets/f2e96d76-8aab-4833-ba25-bded52fa0b72" alt="Descrição da imagem">
+  <figcaption>Figura 5. Múltiplas conexões 
+</figcaption>
+</figure>
+
+Dois clientes diferentes tentaram comprar a única passagem restante em um voo de forma simultânea. O servidor deveria garantir que apenas uma das transações fosse concluída com sucesso, evitando a duplicidade de compras.
+<figure>
+  <img src="https://github.com/user-attachments/assets/55b962e0-b33b-4790-99c1-179a3eeaadfe" alt="Descrição da imagem">
+  <figcaption>Figura 6. Tentativa de compra de passagem no mesmo momento
+</figcaption>
+</figure>
+
+O sistema gerenciou corretamente a situação. Apenas um dos clientes conseguiu efetuar a compra da passagem, enquanto o outro recebeu uma mensagem indicando que a passagem já havia sido comprada. O servidor garantiu a consistência dos dados, evitando reservas conflitantes. Os testes demonstraram que o sistema de comunicação cliente-servidor se comporta de maneira eficiente e confiável, atendendo aos requisitos propostos. O servidor foi capaz de lidar com múltiplas conexões simultâneas sem perda de desempenho, e o protocolo de comunicação assegurou que os dados fossem transmitidos de forma íntegra e segura.
+
+
+       Conclusão
+O desenvolvimento deste sistema de comunicação cliente-servidor para uma companhia aérea de baixo custo permitiu implementar uma solução eficiente e confiável, capaz de atender às necessidades operacionais e proporcionar uma experiência de compra de passagens online segura e ágil para os clientes. Ao longo do projeto, diversas decisões técnicas foram tomadas, como o uso do protocolo TCP/IP para garantir a integridade e confiabilidade da transmissão de dados, além da implementação de uma arquitetura cliente-servidor de duas camadas que facilitou a comunicação direta entre o usuário e o servidor central. A integração de ferramentas como a linguagem Python, a biblioteca socket, o Docker, e a abordagem stateful para a comunicação, foram essenciais para garantir a escalabilidade e robustez do sistema. Além disso, a adoção de threads para lidar com conexões simultâneas assegurou que o sistema pudesse atender a múltiplos clientes de maneira eficiente, sem comprometer o desempenho ou a integridade dos dados. Ao final do projeto, as funcionalidades implementadas atenderam plenamente os requisitos levantados na fase inicial, proporcionando um sistema capaz de gerenciar de forma eficaz a compra de passagens em tempo real. Com a documentação detalhada e o uso de práticas de desenvolvimento modernas, o sistema se encontra preparado para futuras expansões, garantindo que a companhia possa continuar oferecendo serviços inovadores e acessíveis aos seus clientes.
+
+  	 Referências
+
+Drake 2023 DRAKE, V. O que é o modelo TCP/IP? Camadas e protocolos explicados.
+2023. Acesso em: 21 set. 2024. Dispon´ıvel em: ⟨https://www.freecodecamp.org/portuguese/
+news/o-que-e-o-modelo-tcp-ip-camadas-e-protocolos-explicados/⟩.
+
+Net NET, C. Cliente-Servidor, uma estrutura lógica para a computação centralizada. Acesso em: 21 set. 2024. Disponıvel em: ⟨https://www.controle.net/faq/
+cliente-servidor-uma-estrutura-para-a-computacao-centralizada⟩.
+
+Noleto 2023 NOLETO, C. Protocolo TCP/IP: o que é e  exemplos de como funciona.
+2023. Acesso em: 21 set. 2024. Disponível em: ⟨https://blog.betrybe.com/tecnologia/
+protocolo-tcp-ip/⟩.
+
+Santana 2023 SANTANA, B. O Que é o Protocolo TCP/IP e Como Ele Funciona? 2023.
+Acesso em: 21 set. 2024. Disponível em: ⟨https://www.hostinger.com.br/tutoriais/tcp-ip#O_Que_e_TCPIP⟩.
+
+Souza 2024 SOUZA, A. J. Arquitetura Cliente-Servidor. 2024. Acesso em: 21 set. 2024.
+Dispon´ıvel em: ⟨https://blog.grancursosonline.com.br/arquitetura-cliente-servidor/⟩.
+
+
+
+
+
+
+
+
