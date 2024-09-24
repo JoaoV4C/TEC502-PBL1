@@ -21,8 +21,7 @@ O TCP/IP foi escolhido no desenvolvimento do sistema devido sua capacidade de ga
 A estrutura cliente-servidor é um modelo de arquitetura de rede amplamente utilizado em ambientes de TI. Nesta abordagem, os computadores são divididos em dois grupos: servidores, que fornecem serviços ou recursos, e clientes, que solicitam estes serviços e recursos, recebendo-os como respostas. No contexto do sistema implementado, onde há reservas de passagens, essa arquitetura permite que os clientes consultem rotas e efetuem a compra de passagens em tempo real, garantindo que a disponibilidade de vagas no voos sejam atualizadas constantemente. No desenvolvimento do produto foi escolhida a arquitetura cliente-servidor de duas camadas, onde a comunicação é direta entre o cliente e o servidor. O cliente é responsável pela interface do usuário e envia as solicitações ao servidor, que processa essas solicitações e retorna as respostas ao cliente. Optamos por este modelo por ser simples e adequado para aplicações menores, mas caso a aplicação cresça, ela pode se tornar ineficiente devido à carga direta sobre o servidor.
 
    Sockets
-Sockets são uma abstração fundamental para a comunicação em rede, permitindo a troca de dados entre um cliente e um servidor. Eles oferecem uma interface de programação que facilita a implementação de protocolos de comunicação, seja em um ambiente local ou na Internet. 
-<figure style="text-align: center;">
+Sockets são uma abstração fundamental para a comunicação em rede, permitindo a troca de dados entre um cliente e um servidor. Eles oferecem uma interface de programação que facilita a implementação de protocolos de comunicação, seja em um ambiente local ou na Internet. <figure style="text-align: center;">
   <img src="https://github.com/user-attachments/assets/7f0e0bb4-ba84-48bd-9337-3abb0d12e6ef" alt="Descrição da imagem">
   <figcaption>figura 1. Esquema representando como o socket funciona no cliente-servidor</figcaption>
 </figure>
