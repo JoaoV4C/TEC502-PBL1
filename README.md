@@ -1,15 +1,11 @@
 # TEC502-PBL1
-
-## Discentes
-- **Humberto Costa**
-- **João Victor Alves**
-
-## Docente
-- **Antonio A T R Coutinho**
+## Discentes 
+**Humberto Costa 
+João Victor Alves
 
 
-		Introdução
-O setor de aviação low-cost carriers (LCCs), trouxe uma revolução significativa na forma como as pessoas acessam o transporte aéreo. Ao adotar estratégias inovadoras de redução de custos, como o uso de aeroportos secundários e operações automatizadas, as LCCs possibilitaram que um número maior de pessoas viajasse de avião, promovendo o crescimento do turismo e da conectividade global. Dentro desse contexto, uma nova companhia aérea brasileira de baixo custo busca expandir suas operações ao oferecer a compra de passagens pela Internet, possibilitando que os clientes escolham e reservem assentos em trechos disponíveis de forma eficiente. O desafio principal para a implementação desse sistema reside na necessidade de estabelecer uma comunicação eficiente e confiável entre o cliente e o servidor central da companhia. A solução deve ser construída sobre a base do subsistema de rede TCP/IP, com uma API Socket adequada para permitir que os clientes consultem, selecionem e comprem passagens. Este relatório tem como objetivo apresentar as decisões teóricas e práticas tomadas durante o desenvolvimento do sistema de comunicação, detalhando as opções técnicas e a definição do protocolo de comunicação adotado para atender às necessidades operacionais da companhia.
+	Introdução
+  O setor de aviação low-cost carriers (LCCs), trouxe uma revolução significativa na forma como as pessoas acessam o transporte aéreo. Ao adotar estratégias inovadoras de redução de custos, como o uso de aeroportos secundários e operações automatizadas, as LCCs possibilitaram que um número maior de pessoas viajasse de avião, promovendo o crescimento do turismo e da conectividade global. Dentro desse contexto, uma nova companhia aérea brasileira de baixo custo busca expandir suas operações ao oferecer a compra de passagens pela Internet, possibilitando que os clientes escolham e reservem assentos em trechos disponíveis de forma eficiente. O desafio principal para a implementação desse sistema reside na necessidade de estabelecer uma comunicação eficiente e confiável entre o cliente e o servidor central da companhia. A solução deve ser construída sobre a base do subsistema de rede TCP/IP, com uma API Socket adequada para permitir que os clientes consultem, selecionem e comprem passagens. Este relatório tem como objetivo apresentar as decisões teóricas e práticas tomadas durante o desenvolvimento do sistema de comunicação, detalhando as opções técnicas e a definição do protocolo de comunicação adotado para atender às necessidades operacionais da companhia.
 
     Fundamentação Teórica 
 Nesta seção, serão apresentados os principais conceitos e teorias que fundamentam o desenvolvimento do sistema de comunicação cliente-servidor.
