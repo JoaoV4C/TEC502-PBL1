@@ -1,7 +1,7 @@
 # TEC502-PBL1
 
 ## Discentes
-- **Humberto Bandeira Costa**
+- **Humberto Costa**
 - **João Victor Alves**
 
 ## Docente
