@@ -11,7 +11,7 @@ HEADER = 4096
 FORMAT = "utf-8"
 
 # Definindo o endereço e porta que o servidor vai se conectar
-SERVER = 'localhost'
+SERVER = '0.0.0.0'
 PORT = 5050
 ADDR = (SERVER, PORT)
 
