@@ -7,7 +7,7 @@ HEADER = 4096
 FORMAT = "utf-8"
 
 # Definindo o endereço e porta que o servidor vai se conectar
-SERVER = "airport-server"
+SERVER = "localhost"
 PORT = 5050
 ADDR = (SERVER, PORT)
 
@@ -37,11 +37,10 @@ def run_client():
                 # Se a mensagem recebida for "Logged" ou o nome for diferente de "_false_", o usuário está logado
                 if confirmation == "Logged" or name != "_false_":
                     logged = True
-                    user = client.recv(HEADER)
-                    user = json.loads(user.decode(FORMAT))
+                    username = client.recv(HEADER).decode(FORMAT)
 
             # Exibe o menu para o usuário e envia a opção selecionada para o servidor
-            option = menu(user)
+            option = menu(username)
             client.send(option.encode(FORMAT)[:HEADER])
 
             match option:

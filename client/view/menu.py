@@ -53,8 +53,8 @@ def show_tickets(tickets):
         print("No tickets purchased.")
 
 # Função para exibir o menu
-def menu(user):
-    print(f"""Hi {user["_name"]}, Welcome To The Fast Pass Company!!
+def menu(username):
+    print(f"""Hi {username}, Welcome To The Fast Pass Company!!
 1 - Buy Ticket
 2 - List your tickets
 3 - Logout""")

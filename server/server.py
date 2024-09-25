@@ -11,7 +11,7 @@ HEADER = 4096
 FORMAT = "utf-8"
 
 # Definindo o endereço e porta que o servidor vai se conectar
-SERVER = '0.0.0.0'
+SERVER = 'localhost'
 PORT = 5050
 ADDR = (SERVER, PORT)
 
@@ -47,8 +47,7 @@ def handle_client(client_socket, client_address):
                 # Se o passager for encontrado, envia os dados do passager para o cliente
                 if passager is not None:
                     client_socket.send("Logged".encode(FORMAT))
-                    user_json = json.dumps(passager.__dict__)
-                    client_socket.sendall(user_json.encode(FORMAT))
+                    client_socket.send(f"{passager.name}".encode(FORMAT))
                     logged = True
 
             # Recebe a opcão seleciondada pelo cliente
