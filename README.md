@@ -1,17 +1,13 @@
-# TEC502-PBL1
+# Sistema de Venda de Passagens Aéreas para Companhias Low-Cost com Comunicação TCP/IP e Infraestrutura em Docker
 
 ## Discentes
 - **Humberto Bandeira Costa**
 - **João Victor Alves**
-## Docente
-- **Antonio A T R Coutinho**
-#
 
-
-	Introdução
+## Introdução
   O setor de aviação low-cost carriers (LCCs), trouxe uma revolução significativa na forma como as pessoas acessam o transporte aéreo. Ao adotar estratégias inovadoras de redução de custos, como o uso de aeroportos secundários e operações automatizadas, as LCCs possibilitaram que um número maior de pessoas viajasse de avião, promovendo o crescimento do turismo e da conectividade global. Dentro desse contexto, uma nova companhia aérea brasileira de baixo custo busca expandir suas operações ao oferecer a compra de passagens pela Internet, possibilitando que os clientes escolham e reservem assentos em trechos disponíveis de forma eficiente. O desafio principal para a implementação desse sistema reside na necessidade de estabelecer uma comunicação eficiente e confiável entre o cliente e o servidor central da companhia. A solução deve ser construída sobre a base do subsistema de rede TCP/IP, com uma API Socket adequada para permitir que os clientes consultem, selecionem e comprem passagens. Este relatório tem como objetivo apresentar as decisões teóricas e práticas tomadas durante o desenvolvimento do sistema de comunicação, detalhando as opções técnicas e a definição do protocolo de comunicação adotado para atender às necessidades operacionais da companhia.
 
-    Fundamentação Teórica 
+## Fundamentação Teórica 
 Nesta seção, serão apresentados os principais conceitos e teorias que fundamentam o desenvolvimento do sistema de comunicação cliente-servidor.
    Protocolo TCP/IP
 O protocolo de Controle de Transmissão/Protocolo Internet é a base de comunicação na internet, sendo responsável pela conexão entre dispositivos em redes distintas. O TCP/IP é uma tecnologia baseada em várias camadas que trabalham juntas para assegurar a transmissão íntegra e segura dos dados na web. A divisão em camadas permite que essa transmissão seja padronizada e independente dos dispositivos, garantindo compatibilidade com diferentes sistemas, arquiteturas e linguagens de programação. As quatro camadas principais são:
@@ -37,7 +33,7 @@ Sockets são uma abstração fundamental para a comunicação em rede, permitind
 
 
 
-	Metodologia
+## Metodologia
 Nesta seção, explicaremos a metodologia adotada para o desenvolvimento do sistema, detalhando as etapas de implementação, as ferramentas utilizadas, e o fluxo de trabalho seguido pela equipe.
    Descrição Geral do Projeto
 Este projeto tem como objetivo o desenvolvimento de um sistema de comunicação cliente-servidor para uma companhia aérea de baixo custo, utilizando o protocolo TCP/IP. O sistema deve permitir que os clientes realizem a compra de passagens aéreas pela internet, consultando rotas disponíveis e escolhendo os trechos de voo de maneira eficiente e segura. O sistema foi projetado para oferecer uma solução automatizada, onde os clientes possam comprar as passagens online, sem a necessidade da interação com funcionários. Para isso, foi implementado um servidor que gerencia todas as solicitações de compra, listagem de passagens e login, garantindo segurança e confiabilidade. O projeto foi dividido em três partes principais:
@@ -71,7 +67,7 @@ Neste projeto, adotamos uma abordagem stateful para a comunicação entre client
    Tratamento de Conexões Simultâneas
 No desenvolvimento deste sistema, implementamos o tratamento de conexões simultâneas para garantir que múltiplos clientes pudessem interagir com o servidor ao mesmo tempo. Utilizamos a biblioteca threading do Python, que permite a criação de threads para cada cliente conectado. Cada nova conexão estabelecida é tratada em uma thread separada, garantindo que várias solicitações possam ser processadas simultaneamente. Essa abordagem é fundamental para garantir que o servidor permaneça responsivo, mesmo quando vários clientes estão realizando consultas de voos ou efetuando a compra de passagens ao mesmo tempo. A capacidade de lidar com conexões simultâneas foi essencial para simular um ambiente real de atendimento online, onde o sistema precisa processar várias requisições de diferentes usuários de maneira rápida e eficiente, sem que uma conexão interfira no desempenho das outras.
 
-	Testes e Resultados
+## Testes e Resultados
 Nesta seção, apresentamos os principais testes realizados durante o desenvolvimento do sistema de comunicação cliente-servidor, bem como os resultados obtidos. Cada teste foi desenhado para verificar a integridade, a performance e a confiabilidade do sistema em diferentes cenários. Os testes foram realizados tanto no ambiente de desenvolvimento quanto em simulações de situações reais de uso.
 O servidor foi inicializado em um ambiente local, utilizando a API de sockets TCP/IP. Testamos se o servidor conseguia escutar a porta designada e estava pronto para receber solicitações de clientes:
 <figure>
@@ -105,10 +101,10 @@ Dois clientes diferentes tentaram comprar a única passagem restante em um voo d
 O sistema gerenciou corretamente a situação. Apenas um dos clientes conseguiu efetuar a compra da passagem, enquanto o outro recebeu uma mensagem indicando que a passagem já havia sido comprada. O servidor garantiu a consistência dos dados, evitando reservas conflitantes. Os testes demonstraram que o sistema de comunicação cliente-servidor se comporta de maneira eficiente e confiável, atendendo aos requisitos propostos. O servidor foi capaz de lidar com múltiplas conexões simultâneas sem perda de desempenho, e o protocolo de comunicação assegurou que os dados fossem transmitidos de forma íntegra e segura.
 
 
-       Conclusão
+## Conclusão
 O desenvolvimento deste sistema de comunicação cliente-servidor para uma companhia aérea de baixo custo permitiu implementar uma solução eficiente e confiável, capaz de atender às necessidades operacionais e proporcionar uma experiência de compra de passagens online segura e ágil para os clientes. Ao longo do projeto, diversas decisões técnicas foram tomadas, como o uso do protocolo TCP/IP para garantir a integridade e confiabilidade da transmissão de dados, além da implementação de uma arquitetura cliente-servidor de duas camadas que facilitou a comunicação direta entre o usuário e o servidor central. A integração de ferramentas como a linguagem Python, a biblioteca socket, o Docker, e a abordagem stateful para a comunicação, foram essenciais para garantir a escalabilidade e robustez do sistema. Além disso, a adoção de threads para lidar com conexões simultâneas assegurou que o sistema pudesse atender a múltiplos clientes de maneira eficiente, sem comprometer o desempenho ou a integridade dos dados. Ao final do projeto, as funcionalidades implementadas atenderam plenamente os requisitos levantados na fase inicial, proporcionando um sistema capaz de gerenciar de forma eficaz a compra de passagens em tempo real. Com a documentação detalhada e o uso de práticas de desenvolvimento modernas, o sistema se encontra preparado para futuras expansões, garantindo que a companhia possa continuar oferecendo serviços inovadores e acessíveis aos seus clientes.
 
-  	 Referências
+## Referências
 
 Drake 2023 DRAKE, V. O que é o modelo TCP/IP? Camadas e protocolos explicados.
 2023. Acesso em: 21 set. 2024. Dispon´ıvel em: ⟨https://www.freecodecamp.org/portuguese/
