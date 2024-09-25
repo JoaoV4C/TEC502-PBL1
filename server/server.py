@@ -21,6 +21,13 @@ passager_list = []
 airport_list = []
 
 def handle_client(client_socket, client_address):
+       """
+    Lida com a comunicação com um cliente conectado.
+
+    Args:
+        client_socket: Socket do cliente.
+        client_address: Endereço do cliente (IP e porta).
+    """
     client_full_adress = f"{client_address[0]}:{client_address[1]}"
     print(f"Accepted connection from {client_full_adress}")
     connected = True
@@ -110,6 +117,17 @@ def handle_client(client_socket, client_address):
 
 # Verifica se há assentos disponíveis em todos os voos necessários e reserva-os
 def reserve_flight(passager, flights):
+    """
+    Reserva os voos necessários para o passageiro.
+
+    Args:
+        passager: O passageiro que está reservando os voos.
+        flights: Lista de voos a serem reservados.
+
+    Returns:
+        bool: True se todos os voos foram reservados, False caso contrário.
+    """
+    
     all_reserved = True
     for flight in flights:
         if flight.available_seats == 0:
@@ -184,6 +202,10 @@ def get_best_route(possible_routes):
     return possible_routes[0]
 
 def run_server():
+    """
+    Inicia o servidor e aguarda conexões de clientes.
+    """
+    
     # Cria o objeto socket
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Família de endereços IPV4 e socket do tipo TCP
 
