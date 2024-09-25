@@ -21,7 +21,7 @@ passager_list = []
 airport_list = []
 
 def handle_client(client_socket, client_address):
-       """
+    """
     Lida com a comunicação com um cliente conectado.
 
     Args:
