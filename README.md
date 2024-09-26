@@ -69,10 +69,52 @@ No desenvolvimento deste sistema, implementamos o tratamento de conexões simult
 
 ## Testes e Resultados
 Nesta seção, apresentamos os principais testes realizados durante o desenvolvimento do sistema de comunicação cliente-servidor, bem como os resultados obtidos. Cada teste foi desenhado para verificar a integridade, a performance e a confiabilidade do sistema em diferentes cenários. Os testes foram realizados tanto no ambiente de desenvolvimento quanto em simulações de situações reais de uso.
-#Comandos para inicializar o sistema:
+### Comandos para inicializar o sistema:
+
 Para inicializar o sistema, siga os passos a seguir, utilizando Docker para configurar tanto o cliente quanto o servidor:
-	-1.Servidor
- 		No diretório do servidor, crie a imagem Docker: docker build -t airport-server .
+
+1. **Servidor:**
+
+   - No diretório do servidor, crie a imagem Docker:
+     ```bash
+     docker build -t airport-server .
+     ```
+
+   - Inicie o servidor com o seguinte comando:
+     ```bash
+     docker run -d -p 5050:5050 airport-server
+     ```
+
+2. **Cliente:**
+
+   - **Importante:** Altere o IP no arquivo `client.py` para o IP da máquina onde o servidor está sendo executado.
+
+   - No diretório do cliente, crie a imagem Docker:
+     ```bash
+     docker build -t airport-client .
+     ```
+
+   - Inicie o cliente com o comando:
+     ```bash
+     docker run -it airport-client
+     ```
+
+3. **Utilizando `docker-compose` (opcional):**
+
+   - Suba os containers em segundo plano:
+     ```bash
+     docker-compose up -d
+     ```
+
+   - Execute o bash do cliente:
+     ```bash
+     docker exec airport-client /bin/bash
+     ```
+
+   - Por fim, execute o cliente:
+     ```bash
+     python3 client.py
+     ```
 
 
 O servidor foi inicializado em um ambiente local, utilizando a API de sockets TCP/IP. Testamos se o servidor conseguia escutar a porta designada e estava pronto para receber solicitações de clientes:
