@@ -71,7 +71,9 @@ No desenvolvimento deste sistema, implementamos o tratamento de conexões simult
 Nesta seção, apresentamos os principais testes realizados durante o desenvolvimento do sistema de comunicação cliente-servidor, bem como os resultados obtidos. Cada teste foi desenhado para verificar a integridade, a performance e a confiabilidade do sistema em diferentes cenários. Os testes foram realizados tanto no ambiente de desenvolvimento quanto em simulações de situações reais de uso.
 Comandos para inicializar o sistema:
 Para inicializar o sistema, siga os passos a seguir, utilizando Docker para configurar tanto o cliente quanto o servidor:
-	1. Servidor
+	1.Servidor
+ 		No diretório do servidor, crie a imagem Docker: docker build -t airport-server .
+
 
 O servidor foi inicializado em um ambiente local, utilizando a API de sockets TCP/IP. Testamos se o servidor conseguia escutar a porta designada e estava pronto para receber solicitações de clientes:
 <figure>
