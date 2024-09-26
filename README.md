@@ -99,7 +99,7 @@ Para inicializar o sistema, siga os passos a seguir, utilizando Docker para conf
      docker run -it airport-client
      ```
 
-3. **Utilizando `docker-compose` (opcional):**
+3. **Utilizando `docker-compose` :**
 
    - Suba os containers em segundo plano:
      ```bash
