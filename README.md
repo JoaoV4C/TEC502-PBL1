@@ -115,6 +115,7 @@ Para inicializar o sistema, siga os passos a seguir, utilizando Docker para conf
      ```bash
      python3 client.py
      ```
+Com esses comandos, o sistema será inicializado e estará pronto para uso, permitindo a comunicação entre cliente e servidor de forma eficiente.
 
 
 O servidor foi inicializado em um ambiente local, utilizando a API de sockets TCP/IP. Testamos se o servidor conseguia escutar a porta designada e estava pronto para receber solicitações de clientes:
